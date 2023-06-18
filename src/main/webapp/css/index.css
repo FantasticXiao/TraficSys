@@ -1,0 +1,52 @@
+#app{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+.el-header{
+    background-color: #232f3e;
+    color:#fff;
+}
+.el-aside{
+    height: calc(100% - 45px);
+    background-color: #232f3e;
+    width: 200px!important;
+    border-top: 1px solid white;
+}
+.el-menu{
+    border-right:none!important;
+}
+.el-container.is-vertical{
+    overflow: hidden;
+}
+h1{
+    font-family: emoji;
+    margin-top: 13px;
+}
+.top-right{
+    position:fixed;
+    top:0px;
+    right:0px;
+}
+.el-main{
+    position: absolute;
+    top: 60px;
+    left: 200px;
+    background: #c0c0c03d;
+    padding: 3px!important;
+    width: calc(100% - 200px);
+    height: calc(100% - 60px);
+}
+iframe{
+    border:none;
+    width: 100%;
+    height: 100%;
+}
+.tabs{
+    height: calc(100% - 57px);
+}
+.el-dialog__wrapper{
+    overflow: hidden!important;
+}
