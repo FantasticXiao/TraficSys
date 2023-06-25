@@ -6,9 +6,10 @@ import com.xx.service.MajorFuncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class MajorFuncServiceImpl implements MajorFuncService {
@@ -27,6 +28,8 @@ public class MajorFuncServiceImpl implements MajorFuncService {
     private StaffInfoMapper StaffInfoMapper;
     @Autowired(required = false)
     private SysRoleMenuMapper SysRoleMenuMapper;
+    @Autowired(required = false)
+    private ScheduleTableMapper ScheduleTableMapper;
 
     public Map<String,Object> logIn(String name, String password) {
         return SysUserMapper.logIn(name,password);
@@ -112,7 +115,109 @@ public class MajorFuncServiceImpl implements MajorFuncService {
         return SysRoleMapper.deleteByPrimaryKey(id);
     }
 
+    public List<Map<String,Object>> getScheduleTableList(String month) {
+        return ScheduleTableMapper.selectList(month);
+    }
+    public List<Map<String,Object>> getScheduleHistory() {
+        return ScheduleTableMapper.getScheduleHistory();
+    }
+    public List<Map<String,Object>> getScheduleTableListForCalendar(String month) throws ParseException {
+        List<Map<String,Object>> rs=ScheduleTableMapper.selectList(month);
+        List<Map<String,Object>> result=new ArrayList<Map<String,Object>>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String startDate=month+"-01";
+        int m=Integer.parseInt(month.substring(5,7))+1;
+        String endDate=(month.substring(0,5)+(m<10 ? "0"+m : m)+"-01");
+        List<String> dates = findEveryDay(startDate,endDate);
+        for(int i=0;i<dates.size();i++){
+            List<Map<String,Object>> children=new ArrayList<Map<String,Object>>();
+            for(int j=0;j<rs.size();j++){
+                boolean flag=belongCalendar(
+                        simpleDateFormat.parse(dates.get(i)),
+                        simpleDateFormat.parse(rs.get(j).get("start_time").toString()),
+                        simpleDateFormat.parse(rs.get(j).get("end_time").toString()));
+                if(flag){
+                    Map<String,Object> map=new HashMap();
+                    map.put("driver",rs.get(j).get("staff_name"));
+                    map.put("number",rs.get(j).get("car_number"));
+                    map.put("tel",rs.get(j).get("tel"));
+                    map.put("tripDetail",rs.get(j).get("trip_detail"));
+                    children.add(map);
+                }
+            }
+            Map<String,Object> MAP=new HashMap();
+            MAP.put("day", dates.get(i));
+            MAP.put("children", children);
+            result.add(MAP);
+        }
+        return  result;
+    }
+    /**
+     * 传入两个时间范围，返回这两个时间范围内的所有日期，并保存在一个集合中
+     * @param beginTime
+     * @param endTime
+     */
+    public static List<String> findEveryDay(String beginTime, String endTime)
+            throws ParseException {
+        //1.创建一个放所有日期的集合
+        List<String> dates = new ArrayList();
+        //2.创建时间解析对象规定解析格式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //3.将传入的时间解析成Date类型,相当于格式化
+        Date dBegin = sdf.parse(beginTime);
+        Date dEnd = sdf.parse(endTime);
+        //4.将格式化后的第一天添加进集合
+        dates.add(sdf.format(dBegin));
+        //5.使用本地的时区和区域获取日历
+        Calendar calBegin = Calendar.getInstance();
+        //6.传入起始时间将此日历设置为起始日历
+        calBegin.setTime(dBegin);
+        //8.判断结束日期是否在起始日历的日期之后
+        while (dEnd.after(calBegin.getTime())) {
+            // 9.根据日历的规则:月份中的每一天，为起始日历加一天
+            calBegin.add(Calendar.DAY_OF_MONTH, 1);
+            //10.得到的每一天就添加进集合
+            dates.add(sdf.format(calBegin.getTime()));
+            //11.如果当前的起始日历超过结束日期后,就结束循环
+        }
+        return dates;
+    }
+    /**
+     * 判断时间是否在时间段内
+     * @param nowTime
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
+    public static boolean belongCalendar(Date nowTime, Date beginTime, Date endTime) {
+        //设置当前时间
+        Calendar date = Calendar.getInstance();
+        date.setTime(nowTime);
+        //设置开始时间
+        Calendar begin = Calendar.getInstance();
+        begin.setTime(beginTime);
+        //设置结束时间
+        Calendar end = Calendar.getInstance();
+        end.setTime(endTime);
+        //处于开始时间之后，和结束时间之前的判断
+        if ((date.after(begin) && date.before(end)) || date.equals(begin) || date.equals(end)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int addScheduleTable(ScheduleTable ScheduleTable){
+        return ScheduleTableMapper.insert(ScheduleTable);
+    }
+    public int editScheduleTable(ScheduleTable ScheduleTable) {
+        return ScheduleTableMapper.updateByPrimaryKey(ScheduleTable);
+    }
+    public int deleteScheduleTable(Long id) {
+        return ScheduleTableMapper.deleteByPrimaryKey(id);
+    }
 
 
 }
+
 

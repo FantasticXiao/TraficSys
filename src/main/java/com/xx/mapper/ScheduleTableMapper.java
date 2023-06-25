@@ -3,9 +3,16 @@ package com.xx.mapper;
 import com.xx.domain.ScheduleTable;
 import com.xx.domain.ScheduleTableExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface ScheduleTableMapper {
+
+    List<Map<String,Object>> selectList(String month);
+
+    List<Map<String,Object>> getScheduleHistory();
+
     long countByExample(ScheduleTableExample example);
 
     int deleteByExample(ScheduleTableExample example);

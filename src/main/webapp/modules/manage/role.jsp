@@ -134,7 +134,6 @@
                 let me=this;
                 let v=me.form;
                 let tableData=me.jsonData;
-                if(this.$refs['roleForm']!=undefined) this.$refs['roleForm'].resetFields();
                 v.createTime=getNow();
                 v.deleteFlag=0;
                 this.$refs['roleForm'].validate((valid) => {
@@ -144,6 +143,7 @@
                                 tableData.push(v);
                                 me.tableData=me.jsonData=tableData;
                                 me.dialogFormVisible = false;
+                                me.$refs['roleForm'].resetFields();
                             }
                         },err=>{
                             alert("新增数据失败！");

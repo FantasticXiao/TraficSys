@@ -1,5 +1,7 @@
 package com.xx.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,14 +10,17 @@ import java.util.Date;
  * @author 
  */
 public class ScheduleTable implements Serializable {
+
     private Long id;
 
     private Integer trafficId;
 
     private Integer staffId;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date startTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date endTime;
 
     /**
@@ -27,6 +32,7 @@ public class ScheduleTable implements Serializable {
 
     private String remark;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
     private static final long serialVersionUID = 1L;

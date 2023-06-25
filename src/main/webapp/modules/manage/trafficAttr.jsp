@@ -139,7 +139,7 @@
                             if(res.data!=''){
                                 me.initTable();
                                 me.dialogFormVisible = false;
-                                this.$refs['roleForm'].resetFields();
+                                me.$refs['roleForm'].resetFields();
                             }
                         },err=>{
                             alert("新增数据失败！");

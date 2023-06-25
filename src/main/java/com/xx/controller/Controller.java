@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.GET;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -126,5 +127,30 @@ public class Controller {
         return MajorFuncService.deleteSysRole(SysRole.getId());
     }
 
+    //出车排班表
+    @GetMapping("/getScheduleTableList")
+    public List<Map<String,Object>> getScheduleTableList(String month){
+        return MajorFuncService.getScheduleTableList(month);
+    }
+    @GetMapping("/getScheduleTableListForCalendar")
+    public List<Map<String,Object>> getScheduleTableListForCalendar(String month) throws ParseException {
+        return MajorFuncService.getScheduleTableListForCalendar(month);
+    }
+    @GetMapping("/getScheduleHistory")
+    public List<Map<String,Object>> getScheduleHistory(){
+        return MajorFuncService.getScheduleHistory();
+    }
+    @PostMapping( "/addScheduleTable")
+    public int addScheduleTable(@RequestBody ScheduleTable ScheduleTable){
+        return MajorFuncService.addScheduleTable(ScheduleTable);
+    }
+    @PostMapping( "/editScheduleTable")
+    public int editScheduleTable(@RequestBody ScheduleTable ScheduleTable){
+        return MajorFuncService.editScheduleTable(ScheduleTable);
+    }
+    @PostMapping( "/deleteScheduleTable")
+    public int deleteScheduleTable(@RequestBody ScheduleTable ScheduleTable){
+        return MajorFuncService.deleteScheduleTable(ScheduleTable.getId());
+    }
 }
 

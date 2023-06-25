@@ -87,7 +87,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="驾照到期时间" :label-width="formLabelWidth" prop="licenseExpirationDate">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.licenseExpirationDate" style="width: 100%;"></el-date-picker>
+                    <el-date-picker type="date" placeholder="选择日期" v-model="form.licenseExpirationDate" value-format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -180,7 +180,7 @@
             addFunc(){
               let me=this;
               me.dialogFormVisible=true;
-              this.$refs['roleForm'].resetFields();
+              if(me.$refs['roleForm']!=undefined) me.$refs['roleForm'].resetFields();
               me.flag='add';
               me.inputDisable=false;
             },

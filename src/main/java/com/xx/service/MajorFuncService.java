@@ -2,6 +2,7 @@ package com.xx.service;
 
 import com.xx.domain.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,13 @@ public interface MajorFuncService {
     int addSysRole(SysRole SysRole);
     int editSysRole(SysRole SysRole);
     int deleteSysRole(Long id);
+
+    List<Map<String,Object>> getScheduleTableList(String month);
+    List<Map<String,Object>> getScheduleTableListForCalendar(String month) throws ParseException;
+    List<Map<String,Object>> getScheduleHistory();
+    int addScheduleTable(ScheduleTable ScheduleTable);
+    int editScheduleTable(ScheduleTable ScheduleTable);
+    int deleteScheduleTable(Long id);
 
 }
 

@@ -13,13 +13,10 @@
 <div id="app">
     <el-container>
         <el-header>
-            <el-row :gutter="20">
-                <el-col :span="6">
-                    <el-input placeholder="车牌号查询" autocomplete="false" v-model="input" prefix-icon="el-icon-search" @change="search"></el-input>
-                </el-col>
-                <el-col :span="4">
-                    <el-button type="primary" icon="el-icon-plus" @click="addFunc">增加</el-button>
-                </el-col>
+                <el-input placeholder="车牌号查询" autocomplete="false" v-model="input" prefix-icon="el-icon-search" @change="search"></el-input>
+                &nbsp;&nbsp;&nbsp;
+                <el-button type="primary" icon="el-icon-plus" @click="addFunc">增加</el-button>
+
             </el-row>
         </el-header>
         <el-main style="padding-top: 0px">
@@ -73,7 +70,7 @@
                 <el-input v-model="form.carType" autocomplete="off" placeholder="车辆型号"></el-input>
             </el-form-item>
             <el-form-item label="购入年份" :label-width="formLabelWidth" prop="buyDate">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.buyDate" style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择日期" v-model="form.buyDate" value-format="yyyy-MM-dd"></el-date-picker>
             </el-form-item>
             <el-form-item label="里程数" :label-width="formLabelWidth" prop="mileage">
                 <el-input v-model="form.mileage" autocomplete="off" placeholder="里程数"></el-input>
@@ -100,19 +97,19 @@
                 <el-input v-model="form.ownerTel" autocomplete="off" placeholder="车主电话"></el-input>
             </el-form-item>
             <el-form-item label="行驶证年检有效期" :label-width="formLabelWidth" prop="drivingLicense">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.drivingLicense" style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择日期" v-model="form.drivingLicense" value-format="yyyy-MM-dd"></el-date-picker>
             </el-form-item>
             <el-form-item label="营运证年检有效期" :label-width="formLabelWidth" prop="tradingLicense">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.tradingLicense" style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择日期" v-model="form.tradingLicense" value-format="yyyy-MM-dd"></el-date-picker>
             </el-form-item>
             <el-form-item label="营运代理证换证期限" :label-width="formLabelWidth" prop="operatingLicense">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.operatingLicense" style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择日期" v-model="form.operatingLicense" value-format="yyyy-MM-dd"></el-date-picker>
             </el-form-item>
             <el-form-item label="核准经营期限" :label-width="formLabelWidth" prop="approvalLicense">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.approvalLicense" style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择日期" v-model="form.approvalLicense" value-format="yyyy-MM-dd"></el-date-picker>
             </el-form-item>
             <el-form-item label="车评年检有效期" :label-width="formLabelWidth" prop="evaluationLicense">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.evaluationLicense" style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择日期" v-model="form.evaluationLicense" value-format="yyyy-MM-dd"></el-date-picker>
             </el-form-item>
             <el-form-item label="备注" :label-width="formLabelWidth">
                 <el-input v-model="form.remark" type="textarea" :rows="3" ></el-input>
@@ -205,7 +202,7 @@
             addFunc(){
                 let me=this;
                 me.dialogFormVisible=true;
-                if(this.$refs['roleForm']!=undefined) this.$refs['roleForm'].resetFields();
+                if(me.$refs['roleForm']!=undefined) me.$refs['roleForm'].resetFields();
                 me.flag='add';
                 me.inputDisable=false;
             },
