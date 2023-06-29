@@ -25,6 +25,10 @@
     function getNow(){
         return new Date(+new Date(new Date()) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
     }
+    function getNowMonth(){
+        let time=new Date(+new Date(new Date()) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+        return time.substring(0,7);
+    }
     /**
      *复制下面的方法 直接调用就行 value 就传对应的时间  如：Thu Jun 13 2019 10:41:09 GMT+0800 (中国
      *标准时间)

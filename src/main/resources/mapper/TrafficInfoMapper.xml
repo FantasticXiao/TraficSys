@@ -28,6 +28,9 @@
   <select id="selectList" resultMap="BaseResultMap">
     select *  from  traffic_info
   </select>
+  <select id="selectList2" resultType="java.util.Map" >
+    SELECT car_number ,b.name,b.tel FROM traffic_info a left join staff_info b on a.driver_id=b.id
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

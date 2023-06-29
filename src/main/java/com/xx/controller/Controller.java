@@ -113,7 +113,6 @@ public class Controller {
     public List<SysRole> getSysRoleList(){
         return MajorFuncService.getSysRoleList();
     }
-
     @PostMapping( "/addSysRole")
     public int addSysRole(@RequestBody SysRole SysRole){
         return MajorFuncService.addSysRole(SysRole);
@@ -127,7 +126,34 @@ public class Controller {
         return MajorFuncService.deleteSysRole(SysRole.getId());
     }
 
-    //出车排班表
+    //出车排班表+出车订单管理
+    @GetMapping("/getCarScheduleTable")  //-甘特图形式对应的数据
+    public List<Map<String,Object>> getCarScheduleTable(String date) throws ParseException {
+        return MajorFuncService.getCarScheduleTable(date);
+    }
+    @GetMapping("/getCarScheduleTableList")
+    public List<CarScheduleTable> getCarScheduleTableList(String date){
+        return MajorFuncService.getCarScheduleTableList(date);
+    }
+    @PostMapping( "/addCarScheduleTable")
+    public int addCarScheduleTable(@RequestBody CarScheduleTable CarScheduleTable){
+        return MajorFuncService.addCarScheduleTable(CarScheduleTable);
+    }
+    @PostMapping( "/editCarScheduleTable")
+    public int editCarScheduleTable(@RequestBody CarScheduleTable CarScheduleTable){
+        return MajorFuncService.editCarScheduleTable(CarScheduleTable);
+    }
+    @PostMapping( "/deleteCarScheduleTable")
+    public int deleteCarScheduleTable(@RequestBody CarScheduleTable CarScheduleTable){
+        return MajorFuncService.deleteCarScheduleTable(CarScheduleTable.getId());
+    }
+
+
+
+
+
+
+    //出车排班表----作废
     @GetMapping("/getScheduleTableList")
     public List<Map<String,Object>> getScheduleTableList(String month){
         return MajorFuncService.getScheduleTableList(month);
@@ -152,5 +178,6 @@ public class Controller {
     public int deleteScheduleTable(@RequestBody ScheduleTable ScheduleTable){
         return MajorFuncService.deleteScheduleTable(ScheduleTable.getId());
     }
+
 }
 

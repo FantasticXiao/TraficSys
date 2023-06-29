@@ -2,6 +2,7 @@ package com.xx.mapper;
 
 import com.xx.domain.TrafficInfo;
 import java.util.List;
+import java.util.Map;
 
 public interface TrafficInfoMapper {
 
@@ -10,6 +11,7 @@ public interface TrafficInfoMapper {
     int insert(TrafficInfo record);
 
     List<TrafficInfo> selectList();
+    List<Map<String,Object>> selectList2();
 
     TrafficInfo selectByPrimaryKey(Integer id);
 

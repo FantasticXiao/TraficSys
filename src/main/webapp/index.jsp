@@ -85,9 +85,11 @@
 
   <script>
     let user=JSON.parse(localStorage.getItem('user'));
-    let roleId=user.role_id;
+    let roleId=null;
       if(user==null){
           window.location = "login.jsp";
+      }else{
+          roleId=user.role_id;
       }
       new Vue({
           el: '#app',
@@ -181,7 +183,9 @@
           },
           mounted() {
               let me=this;
-              me.initMenu();
+             if(user!=null){
+                 me.initMenu();
+             }
           }
       })
 

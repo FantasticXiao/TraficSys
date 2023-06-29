@@ -6,7 +6,7 @@ import com.xx.service.MajorFuncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -28,6 +28,8 @@ public class MajorFuncServiceImpl implements MajorFuncService {
     private StaffInfoMapper StaffInfoMapper;
     @Autowired(required = false)
     private SysRoleMenuMapper SysRoleMenuMapper;
+    @Autowired(required = false)
+    private CarScheduleTableMapper CarScheduleTableMapper;
     @Autowired(required = false)
     private ScheduleTableMapper ScheduleTableMapper;
 
@@ -115,6 +117,61 @@ public class MajorFuncServiceImpl implements MajorFuncService {
         return SysRoleMapper.deleteByPrimaryKey(id);
     }
 
+    public List<Map<String,Object>> getCarScheduleTable(String date) throws ParseException {
+        List<Map<String,Object>> result=new ArrayList<Map<String, Object>>();
+        List<Map<String,Object>> trafficInfo=TrafficInfoMapper.selectList2();
+        List<CarScheduleTable> carSchedulrTableList=getCarScheduleTableList(date);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh");
+        for(Map<String,Object> traffic : trafficInfo){
+            Map<String,Object> rs=new HashMap<String,Object>();
+            String carNumber=traffic.get("car_number").toString();
+            String resDriver=traffic.get("name").toString();
+            String resDriverTel=traffic.get("tel").toString();
+            List<String> days = new ArrayList();
+            for(CarScheduleTable obj:carSchedulrTableList){
+                String start=simpleDateFormat.format(obj.getStartTime());
+                String end=simpleDateFormat.format(obj.getEndTime());
+                if(start.substring(0,10).equals(end.substring(0,10))){
+                    //同一天，判断一整天、上午、下午
+                  /*  if(Integer.parseInt(end.substring(11,13))<13){
+//                        rs.put("type","上午");
+                    }else if(Integer.parseInt(start.substring(11,13))>=13){
+//                        rs.put("type","下午");
+                    }else{
+//                        rs.put("type","一天");
+                    }*/
+                    rs.put(start.substring(8,10)+"号",obj.getStatus());
+                }else{
+                    days=findEveryDay(start,end);
+                    for(String day:days){
+                        rs.put(day.substring(8,10)+"号",obj.getStatus());
+                    }
+                }
+            }
+
+            rs.put("carNumber",carNumber);
+            rs.put("resDriver",resDriver);
+            rs.put("resDriverTel",resDriverTel);
+            result.add(rs);
+        }
+        return result;
+    }
+    public List<CarScheduleTable> getCarScheduleTableList(String date){
+        return CarScheduleTableMapper.selectList(date);
+    }
+    public int addCarScheduleTable(CarScheduleTable CarScheduleTable){
+          System.out.println(CarScheduleTable);
+        return CarScheduleTableMapper.insert(CarScheduleTable);
+    }
+    public int editCarScheduleTable(CarScheduleTable CarScheduleTable) {
+        return CarScheduleTableMapper.updateByPrimaryKey(CarScheduleTable);
+    }
+    public int deleteCarScheduleTable(Long id) {
+        return CarScheduleTableMapper.deleteByPrimaryKey(id);
+    }
+    
+
+    
     public List<Map<String,Object>> getScheduleTableList(String month) {
         return ScheduleTableMapper.selectList(month);
     }
@@ -151,6 +208,29 @@ public class MajorFuncServiceImpl implements MajorFuncService {
             result.add(MAP);
         }
         return  result;
+    }
+    public int addScheduleTable(ScheduleTable ScheduleTable){
+        return ScheduleTableMapper.insert(ScheduleTable);
+    }
+    public int editScheduleTable(ScheduleTable ScheduleTable) {
+        return ScheduleTableMapper.updateByPrimaryKey(ScheduleTable);
+    }
+    public int deleteScheduleTable(Long id) {
+        return ScheduleTableMapper.deleteByPrimaryKey(id);
+    }
+
+    public static String transA2B(String a){
+        String rs = a;
+        if (a.contains("_")) {
+            int i = a.indexOf("_");
+            int j = i + 1;
+            char c = a.charAt(j);
+            StringBuilder append = new StringBuilder().append(c);
+            String daxie = append.toString().toUpperCase();
+            String old = new StringBuilder().append("_").append(c).toString();
+            rs = a.replace(old, daxie);
+        }
+        return rs;
     }
     /**
      * 传入两个时间范围，返回这两个时间范围内的所有日期，并保存在一个集合中
@@ -205,16 +285,6 @@ public class MajorFuncServiceImpl implements MajorFuncService {
         } else {
             return false;
         }
-    }
-
-    public int addScheduleTable(ScheduleTable ScheduleTable){
-        return ScheduleTableMapper.insert(ScheduleTable);
-    }
-    public int editScheduleTable(ScheduleTable ScheduleTable) {
-        return ScheduleTableMapper.updateByPrimaryKey(ScheduleTable);
-    }
-    public int deleteScheduleTable(Long id) {
-        return ScheduleTableMapper.deleteByPrimaryKey(id);
     }
 
 
