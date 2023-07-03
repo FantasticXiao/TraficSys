@@ -28,8 +28,9 @@
                     <p>{{dataText}}</p>
                 </template>
                 <el-table-column prop="carNumber" label="车牌号" width="100"></el-table-column>
-                <el-table-column prop="driver" label="司机"></el-table-column>
+                <el-table-column prop="driver" label="跟车司机"></el-table-column>
                 <el-table-column prop="driverTel" label="联系方式" width="130"></el-table-column>
+                <el-table-column prop="status" label="行程简述" width="130"></el-table-column>
                 <el-table-column prop="startAddress" label="出发地"></el-table-column>
                 <el-table-column prop="endAddress" label="目的地"></el-table-column>
                 <el-table-column prop="startTime" label="出发时间" width="200"></el-table-column>

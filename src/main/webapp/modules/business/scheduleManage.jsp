@@ -51,30 +51,21 @@
         <el-row :gutter="2">
             <el-date-picker v-model="date" type="month" placeholder="选择年月"
                             value-format="yyyy-MM" @change="initTableData"></el-date-picker>
-            <el-input placeholder="负责司机" autocomplete="false" v-model="driver"
-                      prefix-icon="el-icon-search" @change="search('driver')"></el-input>
-            <el-input placeholder="车牌号" autocomplete="false" v-model="number"
-                      prefix-icon="el-icon-search" @change="search('number')"></el-input>
             &nbsp;&nbsp;
             <el-button type="primary" icon="el-icon-plus" @click="dialogVisible = true">新增排班</el-button>
         </el-row>
     </el-header>
-    <el-table height="440" :data="tableData" fit border size="small" :header-cell-style="{ background: '#FAFAFA' }" v-loading="loading">
+    <el-table height="440" :data="tableData" fit border size="small"
+              :cell-style="addClass"
+              :header-cell-style="{ background: '#FAFAFA' }" v-loading="loading">
         <template>
             <el-table-column prop="day" label="日期" width="250" align="right" fixed>
                 <el-table-column prop="columnName" label="车牌号" align="left" width="250"></el-table-column>
             </el-table-column>
         </template>
         <template>
-            <el-table-column align="center" v-for="(item, i) in dayAndWeek" :label="item.week">
-                <el-table-column align="center" :label="item.time" :prop="item.time"  width="100"></el-table-column>
-                <%--<template slot-scope="scope">
-                    <el-row prop='day'>{{ scope.row.item.time }}</el-row>
-                    <el-row prop='week'>{{ scope.row.item.week }}</el-row>
-                </template>--%>
-                <%--<template slot-scope="scope">
-                    <div :class="dayGanttType(scope.row, item)"></div>
-                </template>--%>
+            <el-table-column align="center" v-for="(item, i) in dayAndWeek" :label="item.week" :key="i">
+                <el-table-column align="center" :label="item.time" :prop="item.time" :key="i" width="100"></el-table-column>
             </el-table-column>
         </template>
     </el-table>
@@ -165,8 +156,6 @@
         data() {
             return {
                 date:'',
-                driver:'',
-                number:'',
                 tableData:[],
                 loading: false,
                 dayAndWeek:[],
@@ -210,29 +199,18 @@
                     }
                 }
             },
-            dayGanttType (row, date) {
-                // 获取时间数组
-                const r = row.time;
-                // 遍历多组时间
-                for (let i = 0; i < r.length; i++) {
-                    // 获取每组时间的开始时间
-                    let start_date = r[i].startDate;
-                    // 获取每组时间的结束时间
-                    let end_date = r[i].endDate;
-                    // 查看时间是否在开始和结束时间之间
-                    // compareDate方法是获取判断条件的，在这里不重要，就不上代码了。
-                    const flag = this.compareDate(start_date, end_date, date);
-                    // 如果存在
-                    if (flag) {
-                        // 判断条件，主要是区分显示颜色，不重要
-                        if (r[i].flag === "1") {
-                            // 添加class
-                            return "wl-item-on";
-                        } else {
-                            // 添加class
-                            return "wl-item-on green";
-                        }
-                    }
+            addClass({row,column,rowIndex,columnIndex}){
+                if(columnIndex>0 && columnIndex<10){
+                    columnIndex="0"+columnIndex+"号";
+                } else if(columnIndex>=10){
+                    columnIndex=columnIndex+"号";
+                }
+                if(columnIndex==0){
+                    return null;
+                }else if(row[columnIndex]==undefined){
+                    return "background: #88c988";
+                }else{
+                    return "background: #eb8585";
                 }
             },
             intiDayAndWeek(date) {
@@ -242,17 +220,10 @@
                 let dd = new Date(year, month, 0);//获取当月总天数
                 let weekList = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
                 for (let i = 1; i <= dd.getDate(); i++) {
-                    if(i<10){
-                        me.dayAndWeek.push({
-                            time: "0"+i + "号",
-                            week: weekList[new Date(date.setDate(i)).getDay()],//获取对应日期的星期
-                        });
-                    }else{
-                        me.dayAndWeek.push({
-                            time: i + "号",
-                            week: weekList[new Date(date.setDate(i)).getDay()],//获取对应日期的星期
-                        });
-                    }
+                    me.dayAndWeek.push({
+                        time: (i<10 ? "0"+i + "号" : i + "号" ),
+                        week: weekList[new Date(date.setDate(i)).getDay()],//获取对应日期的星期
+                    });
                 }
 
             },

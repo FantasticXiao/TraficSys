@@ -121,7 +121,8 @@ public class MajorFuncServiceImpl implements MajorFuncService {
         List<Map<String,Object>> result=new ArrayList<Map<String, Object>>();
         List<Map<String,Object>> trafficInfo=TrafficInfoMapper.selectList2();
         List<CarScheduleTable> carSchedulrTableList=getCarScheduleTableList(date);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh");
+        //SimpleDateFormat格式设置24小时制时，HH代表24小时制，hh代表12小时制
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH");
         for(Map<String,Object> traffic : trafficInfo){
             Map<String,Object> rs=new HashMap<String,Object>();
             String carNumber=traffic.get("car_number").toString();
@@ -129,26 +130,34 @@ public class MajorFuncServiceImpl implements MajorFuncService {
             String resDriverTel=traffic.get("tel").toString();
             List<String> days = new ArrayList();
             for(CarScheduleTable obj:carSchedulrTableList){
-                String start=simpleDateFormat.format(obj.getStartTime());
-                String end=simpleDateFormat.format(obj.getEndTime());
-                if(start.substring(0,10).equals(end.substring(0,10))){
-                    //同一天，判断一整天、上午、下午
-                  /*  if(Integer.parseInt(end.substring(11,13))<13){
-//                        rs.put("type","上午");
-                    }else if(Integer.parseInt(start.substring(11,13))>=13){
-//                        rs.put("type","下午");
+                if(carNumber.equals(obj.getCarNumber().toString())){
+                    String start=simpleDateFormat.format(obj.getStartTime());
+                    String end=simpleDateFormat.format(obj.getEndTime());
+                    if(start.substring(0,10).equals(end.substring(0,10))){
+                        //同一天，判断一整天、上午、下午
+                        String type="一天";
+                        Integer Shour=Integer.parseInt(start.substring(11,13));
+                        Integer Ehour=Integer.parseInt(end.substring(11,13));
+                        if(Ehour<13){
+                            type="上午";
+                        }else if(Shour>=13){
+                            type="下午";
+                        }
+                        System.out.println(rs.get(start.substring(8,10)+"号"));
+                        if(rs.get(start.substring(8,10)+"号")!=null){
+                            String str=rs.get(start.substring(8,10)+"号").toString();
+                            rs.put(start.substring(8,10)+"号",str+","+obj.getStatus()+"("+type+")");
+                        }else{
+                            rs.put(start.substring(8,10)+"号",obj.getStatus()+"("+type+")");
+                        }
                     }else{
-//                        rs.put("type","一天");
-                    }*/
-                    rs.put(start.substring(8,10)+"号",obj.getStatus());
-                }else{
-                    days=findEveryDay(start,end);
-                    for(String day:days){
-                        rs.put(day.substring(8,10)+"号",obj.getStatus());
+                        days=findEveryDay(start,end);
+                        for(String day:days){
+                            rs.put(day.substring(8,10)+"号",obj.getStatus());
+                        }
                     }
                 }
             }
-
             rs.put("carNumber",carNumber);
             rs.put("resDriver",resDriver);
             rs.put("resDriverTel",resDriverTel);
