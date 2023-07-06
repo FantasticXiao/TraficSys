@@ -12,10 +12,8 @@ import java.util.Date;
  */
 public class CarScheduleTable implements Serializable {
     private Long id;
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date startTime;
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date endTime;
 
@@ -26,8 +24,6 @@ public class CarScheduleTable implements Serializable {
     private String resDriver;
 
     private String resDriverTel;
-
-    private String status;
 
     private String startAddress;
 
@@ -43,6 +39,32 @@ public class CarScheduleTable implements Serializable {
 
     private String driverTel;
 
+    /**
+     * 行程
+     */
+    private String description;
+
+    /**
+     * 订单编号
+     */
+    private String orderName;
+
+    /**
+     * 订单负责人
+     */
+    private String orderResponse;
+
+    /**
+     * 支付方式
+     */
+    private String payWay;
+
+    /**
+     * 收款状态
+     */
+    private String status;
+
+    private String carSupply;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
@@ -104,14 +126,6 @@ public class CarScheduleTable implements Serializable {
         this.resDriverTel = resDriverTel;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getStartAddress() {
         return startAddress;
     }
@@ -168,6 +182,54 @@ public class CarScheduleTable implements Serializable {
         this.driverTel = driverTel;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
+    }
+
+    public String getOrderResponse() {
+        return orderResponse;
+    }
+
+    public void setOrderResponse(String orderResponse) {
+        this.orderResponse = orderResponse;
+    }
+
+    public String getPayWay() {
+        return payWay;
+    }
+
+    public void setPayWay(String payWay) {
+        this.payWay = payWay;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCarSupply() {
+        return carSupply;
+    }
+
+    public void setCarSupply(String carSupply) {
+        this.carSupply = carSupply;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -195,7 +257,6 @@ public class CarScheduleTable implements Serializable {
             && (this.getPassengerCapacity() == null ? other.getPassengerCapacity() == null : this.getPassengerCapacity().equals(other.getPassengerCapacity()))
             && (this.getResDriver() == null ? other.getResDriver() == null : this.getResDriver().equals(other.getResDriver()))
             && (this.getResDriverTel() == null ? other.getResDriverTel() == null : this.getResDriverTel().equals(other.getResDriverTel()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getStartAddress() == null ? other.getStartAddress() == null : this.getStartAddress().equals(other.getStartAddress()))
             && (this.getEndAddress() == null ? other.getEndAddress() == null : this.getEndAddress().equals(other.getEndAddress()))
             && (this.getTravelAgency() == null ? other.getTravelAgency() == null : this.getTravelAgency().equals(other.getTravelAgency()))
@@ -203,6 +264,12 @@ public class CarScheduleTable implements Serializable {
             && (this.getPrice() == null ? other.getPrice() == null : this.getPrice().equals(other.getPrice()))
             && (this.getDriver() == null ? other.getDriver() == null : this.getDriver().equals(other.getDriver()))
             && (this.getDriverTel() == null ? other.getDriverTel() == null : this.getDriverTel().equals(other.getDriverTel()))
+            && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
+            && (this.getOrderName() == null ? other.getOrderName() == null : this.getOrderName().equals(other.getOrderName()))
+            && (this.getOrderResponse() == null ? other.getOrderResponse() == null : this.getOrderResponse().equals(other.getOrderResponse()))
+            && (this.getPayWay() == null ? other.getPayWay() == null : this.getPayWay().equals(other.getPayWay()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+            && (this.getCarSupply() == null ? other.getCarSupply() == null : this.getCarSupply().equals(other.getCarSupply()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
     }
 
@@ -217,7 +284,6 @@ public class CarScheduleTable implements Serializable {
         result = prime * result + ((getPassengerCapacity() == null) ? 0 : getPassengerCapacity().hashCode());
         result = prime * result + ((getResDriver() == null) ? 0 : getResDriver().hashCode());
         result = prime * result + ((getResDriverTel() == null) ? 0 : getResDriverTel().hashCode());
-        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getStartAddress() == null) ? 0 : getStartAddress().hashCode());
         result = prime * result + ((getEndAddress() == null) ? 0 : getEndAddress().hashCode());
         result = prime * result + ((getTravelAgency() == null) ? 0 : getTravelAgency().hashCode());
@@ -225,6 +291,12 @@ public class CarScheduleTable implements Serializable {
         result = prime * result + ((getPrice() == null) ? 0 : getPrice().hashCode());
         result = prime * result + ((getDriver() == null) ? 0 : getDriver().hashCode());
         result = prime * result + ((getDriverTel() == null) ? 0 : getDriverTel().hashCode());
+        result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
+        result = prime * result + ((getOrderName() == null) ? 0 : getOrderName().hashCode());
+        result = prime * result + ((getOrderResponse() == null) ? 0 : getOrderResponse().hashCode());
+        result = prime * result + ((getPayWay() == null) ? 0 : getPayWay().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getCarSupply() == null) ? 0 : getCarSupply().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         return result;
     }
@@ -242,7 +314,6 @@ public class CarScheduleTable implements Serializable {
         sb.append(", passengerCapacity=").append(passengerCapacity);
         sb.append(", resDriver=").append(resDriver);
         sb.append(", resDriverTel=").append(resDriverTel);
-        sb.append(", status=").append(status);
         sb.append(", startAddress=").append(startAddress);
         sb.append(", endAddress=").append(endAddress);
         sb.append(", travelAgency=").append(travelAgency);
@@ -250,6 +321,12 @@ public class CarScheduleTable implements Serializable {
         sb.append(", price=").append(price);
         sb.append(", driver=").append(driver);
         sb.append(", driverTel=").append(driverTel);
+        sb.append(", description=").append(description);
+        sb.append(", orderName=").append(orderName);
+        sb.append(", orderResponse=").append(orderResponse);
+        sb.append(", payWay=").append(payWay);
+        sb.append(", status=").append(status);
+        sb.append(", carSupply=").append(carSupply);
         sb.append(", createTime=").append(createTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

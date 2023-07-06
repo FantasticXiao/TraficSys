@@ -135,6 +135,14 @@ public class Controller {
     public List<CarScheduleTable> getCarScheduleTableList(String date){
         return MajorFuncService.getCarScheduleTableList(date);
     }
+    @GetMapping("/getDriverByCarNumber")
+    public List<Map<String,Object>> getDriverByCarNumber(String carNumber){
+        return MajorFuncService.getDriverByCarNumber(carNumber);
+    }
+    @PostMapping( "/judgeIfEmpty")
+    public List<CarScheduleTable> judgeIfEmpty(@RequestBody CarScheduleTable CarScheduleTable){
+        return MajorFuncService.judgeIfEmpty(CarScheduleTable);
+    }
     @PostMapping( "/addCarScheduleTable")
     public int addCarScheduleTable(@RequestBody CarScheduleTable CarScheduleTable){
         return MajorFuncService.addCarScheduleTable(CarScheduleTable);
@@ -147,6 +155,7 @@ public class Controller {
     public int deleteCarScheduleTable(@RequestBody CarScheduleTable CarScheduleTable){
         return MajorFuncService.deleteCarScheduleTable(CarScheduleTable.getId());
     }
+
 
 
 

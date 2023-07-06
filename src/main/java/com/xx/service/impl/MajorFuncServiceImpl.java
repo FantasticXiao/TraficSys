@@ -135,25 +135,24 @@ public class MajorFuncServiceImpl implements MajorFuncService {
                     String end=simpleDateFormat.format(obj.getEndTime());
                     if(start.substring(0,10).equals(end.substring(0,10))){
                         //同一天，判断一整天、上午、下午
-                        String type="一天";
+                        String type="";
                         Integer Shour=Integer.parseInt(start.substring(11,13));
                         Integer Ehour=Integer.parseInt(end.substring(11,13));
                         if(Ehour<13){
-                            type="上午";
+                            type="上午:";
                         }else if(Shour>=13){
-                            type="下午";
+                            type="下午:";
                         }
-                        System.out.println(rs.get(start.substring(8,10)+"号"));
                         if(rs.get(start.substring(8,10)+"号")!=null){
                             String str=rs.get(start.substring(8,10)+"号").toString();
-                            rs.put(start.substring(8,10)+"号",str+","+obj.getStatus()+"("+type+")");
+                            rs.put(start.substring(8,10)+"号",str+","+type+obj.getDescription());
                         }else{
-                            rs.put(start.substring(8,10)+"号",obj.getStatus()+"("+type+")");
+                            rs.put(start.substring(8,10)+"号",type+obj.getDescription());
                         }
                     }else{
                         days=findEveryDay(start,end);
                         for(String day:days){
-                            rs.put(day.substring(8,10)+"号",obj.getStatus());
+                            rs.put(day.substring(8,10)+"号",obj.getDescription());
                         }
                     }
                 }
@@ -168,8 +167,21 @@ public class MajorFuncServiceImpl implements MajorFuncService {
     public List<CarScheduleTable> getCarScheduleTableList(String date){
         return CarScheduleTableMapper.selectList(date);
     }
+
+    public List<Map<String, Object>> getDriverByCarNumber(String carNumber) {
+        return CarScheduleTableMapper.getDriverByCarNumber(carNumber);
+    }
+
+    public List<CarScheduleTable> judgeIfEmpty(CarScheduleTable CarScheduleTable) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH");
+        String carNumber=CarScheduleTable.getCarNumber();
+        String start=simpleDateFormat.format(CarScheduleTable.getStartTime());
+        String end=simpleDateFormat.format(CarScheduleTable.getEndTime());
+        String id=(CarScheduleTable.getId()==0 ? "" : CarScheduleTable.getId().toString());
+        return CarScheduleTableMapper.judgeIfEmpty(carNumber,start,end,id);
+    }
+
     public int addCarScheduleTable(CarScheduleTable CarScheduleTable){
-          System.out.println(CarScheduleTable);
         return CarScheduleTableMapper.insert(CarScheduleTable);
     }
     public int editCarScheduleTable(CarScheduleTable CarScheduleTable) {

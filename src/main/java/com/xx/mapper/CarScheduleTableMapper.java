@@ -8,7 +8,10 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 public interface CarScheduleTableMapper {
+
     List<CarScheduleTable> selectList(String date);
+    List<Map<String,Object>> getDriverByCarNumber(String carNumber);
+    List<CarScheduleTable> judgeIfEmpty(String carNumber,String start,String end,String id);
 
     long countByExample(CarScheduleTableExample example);
 

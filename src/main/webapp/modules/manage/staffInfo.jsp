@@ -18,7 +18,7 @@
             </el-row>
         </el-header>
         <el-main style="padding-top: 0px">
-            <el-table :data="tableData" height="440" border>
+            <el-table :data="tableData" height="440" border v-loading="loading">
                 <template slot="empty">
                     <p>{{dataText}}</p>
                 </template>
@@ -107,6 +107,7 @@
                 tableData:[],
                 dataText:'',
                 input:'',
+                loading: false,
                 dialogFormVisible: false,
                 inputDisable:false,
                 form: {
@@ -186,6 +187,8 @@
             },
             submitFunc(){
                 let me=this;
+                me.dialogFormVisible = false;
+                me.loading=true;
                 let tableData=me.jsonData;
                 if(me.flag=='add'){
                     let v=me.form;
@@ -194,7 +197,7 @@
                             axios.post('../../demo/addStaffInfo',v).then(res=>{
                                 if(res.data!=''){
                                     me.initTable();
-                                    me.dialogFormVisible = false;
+                                    me.loading=false;
                                     me.$message({
                                         type: 'success',
                                         message: '新增数据成功！'

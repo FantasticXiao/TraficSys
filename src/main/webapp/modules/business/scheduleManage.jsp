@@ -51,13 +51,18 @@
         <el-row :gutter="2">
             <el-date-picker v-model="date" type="month" placeholder="选择年月"
                             value-format="yyyy-MM" @change="initTableData"></el-date-picker>
+            <el-input placeholder="车牌号" autocomplete="false" v-model="carNumber"
+                      prefix-icon="el-icon-search" @change="search('carNumber')"></el-input>
+            <el-input placeholder="手机号码" autocomplete="false" v-model="resDriverTel"
+                      prefix-icon="el-icon-search" @change="search('resDriverTel')"></el-input>
             &nbsp;&nbsp;
+            <el-button type="primary" icon="el-icon-refresh" @click="initTableData">刷新</el-button>
             <el-button type="primary" icon="el-icon-plus" @click="dialogVisible = true">新增排班</el-button>
         </el-row>
     </el-header>
-    <el-table height="440" :data="tableData" fit border size="small"
-              :cell-style="addClass"
-              :header-cell-style="{ background: '#FAFAFA' }" v-loading="loading">
+    <el-table height="440" :data="tableData" fit border size="small" v-loading="loading"
+              :cell-style="addClass" style="font-size: 10px"
+              :header-cell-style="{ background: '#FAFAFA' }" >
         <template>
             <el-table-column prop="day" label="日期" width="250" align="right" fixed>
                 <el-table-column prop="columnName" label="车牌号" align="left" width="250"></el-table-column>
@@ -65,7 +70,7 @@
         </template>
         <template>
             <el-table-column align="center" v-for="(item, i) in dayAndWeek" :label="item.week" :key="i">
-                <el-table-column align="center" :label="item.time" :prop="item.time" :key="i" width="100"></el-table-column>
+                <el-table-column align="center" :label="item.time" :prop="item.time" :key="i" width="150"></el-table-column>
             </el-table-column>
         </template>
     </el-table>
@@ -98,31 +103,40 @@
                         <el-date-picker type="datetime" placeholder="结束时间" v-model="form.endTime"></el-date-picker>
                     </el-form-item>
             </el-form-item>--%>
-               <el-form-item :label-width="formLabelWidth" label="出车时间" required>
-                   <el-date-picker
-                           v-model="form.endTime"
-                           type="datetimerange"
-                           align="right"  value-format="yyyy-MM-dd HH:mm:ss"
-                           start-placeholder="出发时间"
-                           end-placeholder="返车时间"
-                           :default-time="['08:00:00', '17:00:00']">
-                   </el-date-picker>
-               </el-form-item>
             <el-form-item label="车牌号" :label-width="formLabelWidth" prop="carNumber">
                 <el-select v-model="form.carNumber" filterable placeholder="车牌号" @change="getResDriver">
                     <el-option v-for="item in carOptions" :key="item.id" :label="item.carNumber" :value="item.carNumber"></el-option>
                 </el-select>
             </el-form-item>
+           <el-form-item :label-width="formLabelWidth" label="出车时间" required>
+               <el-date-picker
+                       v-model="form.endTime"
+                       type="datetimerange"   @change="judgeIfEmpty"
+                       align="right"  value-format="yyyy-MM-dd HH:mm:ss"
+                       start-placeholder="出发时间"
+                       end-placeholder="返车时间"
+                       :default-time="['08:00:00', '17:00:00']">
+               </el-date-picker>
+           </el-form-item>
             <el-form-item label="负责司机" :label-width="formLabelWidth" prop="resDriver">
                 <el-input v-model="form.resDriver" :disabled="true"></el-input>
             </el-form-item>
-               <el-form-item label="座位数" :label-width="formLabelWidth" prop="passengerCapacity">
-                   <el-input v-model="form.passengerCapacity" :disabled="true"></el-input>
-               </el-form-item>
+           <el-form-item label="座位数" :label-width="formLabelWidth" prop="passengerCapacity">
+               <el-input v-model="form.passengerCapacity" :disabled="true"></el-input>
+           </el-form-item>
+           <el-form-item label="车辆供应商" :label-width="formLabelWidth" prop="carSupply">
+               <el-select v-model="form.carSupply" filterable placeholder="车辆供应商" >
+                   <el-option label="公营" value="公营"></el-option>
+                   <el-option label="外调" value="外调"></el-option>
+               </el-select>
+           </el-form-item>
             <el-form-item label="跟车司机" :label-width="formLabelWidth" prop="driver">
                 <el-select v-model="form.driver" filterable placeholder="跟车司机">
                     <el-option v-for="item in driverOptions" :key="item.id" :label="item.name" :value="item.name"></el-option>
                 </el-select>
+                <el-radio-group v-model="form.driverRadio" size="small" @input="form.driver=form.driverRadio">
+                    <el-radio-button v-for="item in driverRadios" :label="item.driver"></el-radio-button>
+                </el-radio-group>
             </el-form-item>
             <el-form-item label="出发地" :label-width="formLabelWidth" prop="startAddress">
                 <el-input  v-model="form.startAddress" autocomplete="off" placeholder="出发地"></el-input>
@@ -130,14 +144,24 @@
             <el-form-item label="目的地" :label-width="formLabelWidth" prop="endAddress">
                 <el-input  v-model="form.endAddress" autocomplete="off" placeholder="目的地"></el-input>
             </el-form-item>
+           <el-form-item label="团号" :label-width="formLabelWidth" prop="orderName">
+               <el-input  v-model="form.orderName" autocomplete="off" placeholder="团号"></el-input>
+           </el-form-item>
+           <el-form-item label="订单负责人" :label-width="formLabelWidth" prop="orderResponse">
+               <el-select v-model="form.orderResponse" filterable placeholder="订单负责人" >
+                   <el-option label="肖剑锋" value="肖剑锋"></el-option>
+                   <el-option label="周素芳" value="周素芳"></el-option>
+                   <el-option label="肖东升" value="肖东升"></el-option>
+               </el-select>
+           </el-form-item>
             <el-form-item label="对接旅行社" :label-width="formLabelWidth" prop="travelAgency">
                 <el-input  v-model="form.travelAgency" autocomplete="off" placeholder="对接旅行社"></el-input>
             </el-form-item>
             <el-form-item label="旅行社联系人" :label-width="formLabelWidth" prop="travelAgencyResponsibility">
                 <el-input  v-model="form.travelAgencyResponsibility" autocomplete="off" placeholder="旅行社联系人"></el-input>
             </el-form-item>
-            <el-form-item label="行程简述" :label-width="formLabelWidth" prop="status">
-                <el-input  v-model="form.status" autocomplete="off" placeholder="行程简述"></el-input>
+            <el-form-item label="行程简述" :label-width="formLabelWidth" prop="description">
+                <el-input  v-model="form.description" autocomplete="off" placeholder="行程简述"></el-input>
             </el-form-item>
             <el-form-item label="车价" :label-width="formLabelWidth" prop="price">
                 <el-input  v-model="form.price" autocomplete="off" placeholder="车价"></el-input>
@@ -156,23 +180,31 @@
         data() {
             return {
                 date:'',
+                carNumber:'',
+                resDriverTel:'',
                 tableData:[],
+                jsonData:[],
                 loading: false,
                 dayAndWeek:[],
                 dialogVisible:false,
+                radioVisible:false,
                 form: {
                     /*"year":null, "month": null,"day": null, "type": '单日',*/
-                    "startTime": null, "endTime": null, "carNumber": null, "status": null,
-                    "startAddress": null, "endAddress": null, "goTime": null, "travelAgency": null,
+                    "startTime": null, "endTime": null, "carNumber": null, "description": null,
+                    "orderName":null,"orderResponse":null,"carSupply":null,
+                    "startAddress": null, "endAddress": null, "travelAgency": null,"driverRadio":null,
                     "travelAgencyResponsibility": null, "price": null, "driver": null, "driverTel": null, "createTime": null
                 },
                 rules: {
                     endTime: [{ required: true, message: '不能为空', trigger: 'blur' },],
+                    orderName: [{ required: true, message: '不能为空', trigger: 'blur' },],
+                    orderResponse: [{ required: true, message: '不能为空', trigger: 'blur' },],
+                    carSupply: [{ required: true, message: '不能为空', trigger: 'blur' },],
                     carNumber: [{ required: true, message: '不能为空', trigger: 'blur' },],
                     startAddress: [{ required: true, message: '不能为空', trigger: 'blur' },],
                     endAddress: [{ required: true, message: '不能为空', trigger: 'blur' },],
                     price: [{ required: true, message: '不能为空', trigger: 'blur' },],
-                    status: [{ required: true, message: '不能为空', trigger: 'blur' },],
+                    description: [{ required: true, message: '不能为空', trigger: 'blur' },],
                     driver: [{ required: true, message: '不能为空', trigger: 'blur' },],
                     travelAgencyResponsibility: [{ required: true, message: '不能为空', trigger: 'blur' },],
                     travelAgency: [{ required: true, message: '不能为空', trigger: 'blur' },],
@@ -180,6 +212,7 @@
                 formLabelWidth: '120px',
                 carOptions:[],
                 driverOptions:[],
+                driverRadios:[],
             };
         },
         methods: {
@@ -242,25 +275,27 @@
             },
             initTableData(){
                 let me=this;
+                me.loading=true;
                 axios({
                     type: 'post',
                     url: '../../demo/getCarScheduleTable',
-                    params: {date:this.date}
+                    params: {date:me.date}
                 }).then(res=>{
                     if(res.data!=''){
                         let data=res.data;
                         data.forEach(v=>{
                             v.columnName=v.carNumber+":"+v.resDriver.substring(0,1)+v.resDriverTel;
                         })
-                        me.tableData=res.data;
+                        me.tableData=me.jsonData=res.data;
+                        me.loading=false;
                     }else{
                         alert(err);
                     }
                 });
             },
             search(type){
-                this.searchDay=[];
-                this.tableData.forEach(v=>{
+                this.tableData=[];
+                this.jsonData.forEach(v=>{
                         if(v[type].indexOf(this[type])>-1) this.tableData.push(v);
                     })
             },
@@ -282,10 +317,36 @@
                 })
                 me.form.resDriver=driverId;
                 me.form.resDriverTel=driverTel;
+                me.judgeIfEmpty();
+                axios({
+                    type: 'post',
+                    url: '../../demo/getDriverByCarNumber',
+                    params: {carNumber:me.form.carNumber}
+                }).then(res=>{
+                    if(res.data!="" && res.data.length>0){
+                        me.radioVisible=true;
+                        me.driverRadios=res.data;
+                    }
+
+                })
+            },
+            judgeIfEmpty(){
+              let me=this;
+              let v=me.form;
+              if(v.carNumber!=null && v.endTime!=null){
+                  axios.post('../../demo/judgeIfEmpty',{carNumber:v.carNumber,startTime:v.endTime[0],endTime:v.endTime[1],id:0}).then(res=> {
+                      if(res.data!='' && res.data.length>0){
+                          alert("该时段车辆"+me.form.carNumber+"已有出车安排，请重新规划调配！");
+                          me.form.endTime=null;
+                          me.form.carNumber=null;
+                      }
+                  });
+              }
             },
             addFunc(){
                 let me=this;
                 let v=me.form;
+                me.dialogVisible = false;
                 me.loading=true;
                 v.createTime=getNow();
                 v.startTime=v.endTime[0];
@@ -298,8 +359,6 @@
                         axios.post('../../demo/addCarScheduleTable',v).then(res=>{
                             if(res.data!=''){
                                 me.initTableData();
-                                me.dialogVisible = false;
-                                me.loading=false;
                                 me.$refs['roleForm'].resetFields();
                                 me.$message({
                                     type: 'success',

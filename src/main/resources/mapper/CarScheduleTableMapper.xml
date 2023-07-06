@@ -9,7 +9,6 @@
     <result column="passenger_capacity" jdbcType="INTEGER" property="passengerCapacity" />
     <result column="res_driver" jdbcType="VARCHAR" property="resDriver" />
     <result column="res_driver_tel" jdbcType="VARCHAR" property="resDriverTel" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="start_address" jdbcType="VARCHAR" property="startAddress" />
     <result column="end_address" jdbcType="VARCHAR" property="endAddress" />
     <result column="travel_agency" jdbcType="VARCHAR" property="travelAgency" />
@@ -17,10 +16,26 @@
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="driver" jdbcType="VARCHAR" property="driver" />
     <result column="driver_tel" jdbcType="VARCHAR" property="driverTel" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="order_name" jdbcType="VARCHAR" property="orderName" />
+    <result column="order_response" jdbcType="VARCHAR" property="orderResponse" />
+    <result column="pay_way" jdbcType="VARCHAR" property="payWay" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="car_supply" jdbcType="VARCHAR" property="carSupply" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
+
   <select id="selectList" resultMap="BaseResultMap">
     select *  from  car_schedule_table where start_time like  CONCAT('%',#{param1},'%') or end_time like CONCAT('%',#{param1},'%') ORDER BY start_time
+  </select>
+
+  <select id="judgeIfEmpty" resultMap="BaseResultMap">
+    select *  from  car_schedule_table where
+          car_number like  CONCAT('%',#{param1},'%')  and id!=#{param4}
+          and ((start_time &lt;= #{param2} and #{param2} &lt;= end_time) or (start_time &lt;= #{param3} and #{param3} &lt;= end_time))
+  </select>
+  <select id="getDriverByCarNumber" resultType="java.util.Map" parameterType="string">
+    SELECT driver,count(driver) as count FROM `car_schedule_table` where car_number=#{param1} group by driver order by count desc
   </select>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,8 +97,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, start_time, end_time, car_number, passenger_capacity, res_driver, res_driver_tel, 
-    `status`, start_address, end_address, travel_agency, travel_agency_responsibility, 
-    price, driver, driver_tel, create_time
+    start_address, end_address, travel_agency, travel_agency_responsibility, price, driver, 
+    driver_tel, description, order_name, order_response, pay_way, `status`, car_supply, 
+    create_time
   </sql>
   <select id="selectByExample" parameterType="com.xx.domain.CarScheduleTableExample" resultMap="BaseResultMap">
     select
@@ -126,16 +142,18 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.xx.domain.CarScheduleTable" useGeneratedKeys="true">
     insert into car_schedule_table (start_time, end_time, car_number, 
       passenger_capacity, res_driver, res_driver_tel, 
-      `status`, start_address, end_address, 
-      travel_agency, travel_agency_responsibility, 
-      price, driver, driver_tel, 
-      create_time)
+      start_address, end_address, travel_agency, 
+      travel_agency_responsibility, price, driver, 
+      driver_tel, description, order_name, 
+      order_response, pay_way, `status`, 
+      car_supply, create_time)
     values (#{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{carNumber,jdbcType=VARCHAR}, 
       #{passengerCapacity,jdbcType=INTEGER}, #{resDriver,jdbcType=VARCHAR}, #{resDriverTel,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{startAddress,jdbcType=VARCHAR}, #{endAddress,jdbcType=VARCHAR}, 
-      #{travelAgency,jdbcType=VARCHAR}, #{travelAgencyResponsibility,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{driver,jdbcType=VARCHAR}, #{driverTel,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{startAddress,jdbcType=VARCHAR}, #{endAddress,jdbcType=VARCHAR}, #{travelAgency,jdbcType=VARCHAR}, 
+      #{travelAgencyResponsibility,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{driver,jdbcType=VARCHAR}, 
+      #{driverTel,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{orderName,jdbcType=VARCHAR}, 
+      #{orderResponse,jdbcType=VARCHAR}, #{payWay,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{carSupply,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.xx.domain.CarScheduleTable" useGeneratedKeys="true">
     insert into car_schedule_table
@@ -158,9 +176,6 @@
       <if test="resDriverTel != null">
         res_driver_tel,
       </if>
-      <if test="status != null">
-        `status`,
-      </if>
       <if test="startAddress != null">
         start_address,
       </if>
@@ -181,6 +196,24 @@
       </if>
       <if test="driverTel != null">
         driver_tel,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="orderName != null">
+        order_name,
+      </if>
+      <if test="orderResponse != null">
+        order_response,
+      </if>
+      <if test="payWay != null">
+        pay_way,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="carSupply != null">
+        car_supply,
       </if>
       <if test="createTime != null">
         create_time,
@@ -205,9 +238,6 @@
       <if test="resDriverTel != null">
         #{resDriverTel,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=VARCHAR},
-      </if>
       <if test="startAddress != null">
         #{startAddress,jdbcType=VARCHAR},
       </if>
@@ -228,6 +258,24 @@
       </if>
       <if test="driverTel != null">
         #{driverTel,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="orderName != null">
+        #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderResponse != null">
+        #{orderResponse,jdbcType=VARCHAR},
+      </if>
+      <if test="payWay != null">
+        #{payWay,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="carSupply != null">
+        #{carSupply,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -264,9 +312,6 @@
       <if test="record.resDriverTel != null">
         res_driver_tel = #{record.resDriverTel,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null">
-        `status` = #{record.status,jdbcType=VARCHAR},
-      </if>
       <if test="record.startAddress != null">
         start_address = #{record.startAddress,jdbcType=VARCHAR},
       </if>
@@ -288,6 +333,24 @@
       <if test="record.driverTel != null">
         driver_tel = #{record.driverTel,jdbcType=VARCHAR},
       </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderName != null">
+        order_name = #{record.orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderResponse != null">
+        order_response = #{record.orderResponse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payWay != null">
+        pay_way = #{record.payWay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carSupply != null">
+        car_supply = #{record.carSupply,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -305,7 +368,6 @@
       passenger_capacity = #{record.passengerCapacity,jdbcType=INTEGER},
       res_driver = #{record.resDriver,jdbcType=VARCHAR},
       res_driver_tel = #{record.resDriverTel,jdbcType=VARCHAR},
-      `status` = #{record.status,jdbcType=VARCHAR},
       start_address = #{record.startAddress,jdbcType=VARCHAR},
       end_address = #{record.endAddress,jdbcType=VARCHAR},
       travel_agency = #{record.travelAgency,jdbcType=VARCHAR},
@@ -313,6 +375,12 @@
       price = #{record.price,jdbcType=DECIMAL},
       driver = #{record.driver,jdbcType=VARCHAR},
       driver_tel = #{record.driverTel,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      order_name = #{record.orderName,jdbcType=VARCHAR},
+      order_response = #{record.orderResponse,jdbcType=VARCHAR},
+      pay_way = #{record.payWay,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=VARCHAR},
+      car_supply = #{record.carSupply,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -339,9 +407,6 @@
       <if test="resDriverTel != null">
         res_driver_tel = #{resDriverTel,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        `status` = #{status,jdbcType=VARCHAR},
-      </if>
       <if test="startAddress != null">
         start_address = #{startAddress,jdbcType=VARCHAR},
       </if>
@@ -363,6 +428,24 @@
       <if test="driverTel != null">
         driver_tel = #{driverTel,jdbcType=VARCHAR},
       </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="orderName != null">
+        order_name = #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderResponse != null">
+        order_response = #{orderResponse,jdbcType=VARCHAR},
+      </if>
+      <if test="payWay != null">
+        pay_way = #{payWay,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="carSupply != null">
+        car_supply = #{carSupply,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -377,7 +460,6 @@
       passenger_capacity = #{passengerCapacity,jdbcType=INTEGER},
       res_driver = #{resDriver,jdbcType=VARCHAR},
       res_driver_tel = #{resDriverTel,jdbcType=VARCHAR},
-      `status` = #{status,jdbcType=VARCHAR},
       start_address = #{startAddress,jdbcType=VARCHAR},
       end_address = #{endAddress,jdbcType=VARCHAR},
       travel_agency = #{travelAgency,jdbcType=VARCHAR},
@@ -385,6 +467,12 @@
       price = #{price,jdbcType=DECIMAL},
       driver = #{driver,jdbcType=VARCHAR},
       driver_tel = #{driverTel,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      order_name = #{orderName,jdbcType=VARCHAR},
+      order_response = #{orderResponse,jdbcType=VARCHAR},
+      pay_way = #{payWay,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
+      car_supply = #{carSupply,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>

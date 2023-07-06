@@ -37,6 +37,8 @@ public interface MajorFuncService {
 
     List<Map<String,Object>> getCarScheduleTable(String date) throws ParseException ;
     List<CarScheduleTable> getCarScheduleTableList(String date);
+    List<Map<String,Object>> getDriverByCarNumber(String carNumber);
+    List<CarScheduleTable> judgeIfEmpty(CarScheduleTable CarScheduleTable);
     int addCarScheduleTable(CarScheduleTable CarScheduleTable);
     int editCarScheduleTable(CarScheduleTable CarScheduleTable);
     int deleteCarScheduleTable(Long id);
