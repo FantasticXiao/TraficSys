@@ -5,7 +5,10 @@ import com.xx.mapper.*;
 import com.xx.service.MajorFuncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -168,6 +171,14 @@ public class MajorFuncServiceImpl implements MajorFuncService {
         return CarScheduleTableMapper.selectList(date);
     }
 
+    public List<CarScheduleTable> getOrderNameList() {
+        return CarScheduleTableMapper.getOrderNameList();
+    }
+
+    public List<CarScheduleTable> getCarScheduleByOrderNumber(String orderName) {
+        return CarScheduleTableMapper.getCarScheduleByOrderNumber(orderName);
+    }
+
     public List<Map<String, Object>> getDriverByCarNumber(String carNumber) {
         return CarScheduleTableMapper.getDriverByCarNumber(carNumber);
     }
@@ -190,9 +201,9 @@ public class MajorFuncServiceImpl implements MajorFuncService {
     public int deleteCarScheduleTable(Long id) {
         return CarScheduleTableMapper.deleteByPrimaryKey(id);
     }
-    
 
-    
+
+
     public List<Map<String,Object>> getScheduleTableList(String month) {
         return ScheduleTableMapper.selectList(month);
     }

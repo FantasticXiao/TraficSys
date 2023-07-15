@@ -65,7 +65,7 @@
     </el-calendar>
     </div>
 
-    <el-table  v-if="!calendarVisible" :data="tableData"  border height="440">
+    <el-table  v-if="!calendarVisible" :data="tableData"  border :height="TableHeight">
         <template slot="empty">
             <p>{{dataText}}</p>
         </template>

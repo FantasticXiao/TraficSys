@@ -129,7 +129,7 @@
                               })
                               me.menuList[i].children=temp;
                           }
-                          me.addTab(me.menuList[0].children[2]);
+                          me.addTab(me.menuList[0].children[3]);
                       }else{
                           alert(err);
                       }

@@ -16,27 +16,52 @@
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="driver" jdbcType="VARCHAR" property="driver" />
     <result column="driver_tel" jdbcType="VARCHAR" property="driverTel" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="order_name" jdbcType="VARCHAR" property="orderName" />
     <result column="order_response" jdbcType="VARCHAR" property="orderResponse" />
     <result column="pay_way" jdbcType="VARCHAR" property="payWay" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="car_supply" jdbcType="VARCHAR" property="carSupply" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="description_file" jdbcType="VARCHAR" property="descriptionFile" />
+    <result column="invoice_status" jdbcType="VARCHAR" property="invoiceStatus" />
+    <result column="official_settlement_form" jdbcType="VARCHAR" property="officialSettlementForm" />
+    <result column="official_settlement_form_file" jdbcType="VARCHAR" property="officialSettlementFormFile" />
+    <result column="kilometer_fees" jdbcType="DECIMAL" property="kilometerFees" />
+    <result column="kilometer_fees_file" jdbcType="VARCHAR" property="kilometerFeesFile" />
+    <result column="road_fees" jdbcType="DECIMAL" property="roadFees" />
+    <result column="road_fees_file" jdbcType="VARCHAR" property="roadFeesFile" />
+    <result column="parking_fees" jdbcType="DECIMAL" property="parkingFees" />
+    <result column="parking_fees_file" jdbcType="VARCHAR" property="parkingFeesFile" />
+    <result column="hotel_fees" jdbcType="DECIMAL" property="hotelFees" />
+    <result column="hotel_fees_file" jdbcType="VARCHAR" property="hotelFeesFile" />
+    <result column="food_fees" jdbcType="DECIMAL" property="foodFees" />
+    <result column="food_fees_file" jdbcType="VARCHAR" property="foodFeesFile" />
+    <result column="water_fees" jdbcType="DECIMAL" property="waterFees" />
+    <result column="water_fees_file" jdbcType="VARCHAR" property="waterFeesFile" />
+    <result column="other_fees" jdbcType="DECIMAL" property="otherFees" />
+    <result column="other_fees_file" jdbcType="VARCHAR" property="otherFeesFile" />
+    <result column="price2" jdbcType="DECIMAL" property="price2" />
+    <result column="accounting_flag" jdbcType="DECIMAL" property="accountingFlag" />
   </resultMap>
-
   <select id="selectList" resultMap="BaseResultMap">
-    select *  from  car_schedule_table where start_time like  CONCAT('%',#{param1},'%') or end_time like CONCAT('%',#{param1},'%') ORDER BY start_time
+    select *  from  car_schedule_table where start_time like  CONCAT('%',#{param1},'%') or end_time like CONCAT('%',#{param1},'%') ORDER BY start_time desc
   </select>
-
+  <select id="getOrderNameList" resultMap="BaseResultMap">
+    select order_name from  car_schedule_table ORDER BY start_time desc
+  </select>
+  <select id="getCarScheduleByOrderNumber" resultMap="BaseResultMap">
+    select * from  car_schedule_table where order_name=#{param1} ORDER BY start_time desc
+  </select>
   <select id="judgeIfEmpty" resultMap="BaseResultMap">
     select *  from  car_schedule_table where
-          car_number like  CONCAT('%',#{param1},'%')  and id!=#{param4}
-          and ((start_time &lt;= #{param2} and #{param2} &lt;= end_time) or (start_time &lt;= #{param3} and #{param3} &lt;= end_time))
+    car_number like  CONCAT('%',#{param1},'%')  and id!=#{param4}
+    and ((start_time &lt;= #{param2} and #{param2} &lt;= end_time) or (start_time &lt;= #{param3} and #{param3} &lt;= end_time))
   </select>
   <select id="getDriverByCarNumber" resultType="java.util.Map" parameterType="string">
     SELECT driver,count(driver) as count FROM `car_schedule_table` where car_number=#{param1} group by driver order by count desc
   </select>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -98,8 +123,11 @@
   <sql id="Base_Column_List">
     id, start_time, end_time, car_number, passenger_capacity, res_driver, res_driver_tel, 
     start_address, end_address, travel_agency, travel_agency_responsibility, price, driver, 
-    driver_tel, description, order_name, order_response, pay_way, `status`, car_supply, 
-    create_time
+    driver_tel, order_name, order_response, pay_way, `status`, car_supply, create_time, 
+    description, description_file, invoice_status, official_settlement_form, official_settlement_form_file, 
+    kilometer_fees, kilometer_fees_file, road_fees, road_fees_file, parking_fees, parking_fees_file, 
+    hotel_fees, hotel_fees_file, food_fees, food_fees_file, water_fees, water_fees_file, 
+    other_fees, other_fees_file, price2, accounting_flag
   </sql>
   <select id="selectByExample" parameterType="com.xx.domain.CarScheduleTableExample" resultMap="BaseResultMap">
     select
@@ -144,16 +172,32 @@
       passenger_capacity, res_driver, res_driver_tel, 
       start_address, end_address, travel_agency, 
       travel_agency_responsibility, price, driver, 
-      driver_tel, description, order_name, 
-      order_response, pay_way, `status`, 
-      car_supply, create_time)
+      driver_tel, order_name, order_response, 
+      pay_way, `status`, car_supply, 
+      create_time, description, description_file, 
+      invoice_status, official_settlement_form, 
+      official_settlement_form_file, kilometer_fees, 
+      kilometer_fees_file, road_fees, road_fees_file, 
+      parking_fees, parking_fees_file, hotel_fees, 
+      hotel_fees_file, food_fees, food_fees_file, 
+      water_fees, water_fees_file, other_fees, 
+      other_fees_file, price2, accounting_flag
+      )
     values (#{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{carNumber,jdbcType=VARCHAR}, 
       #{passengerCapacity,jdbcType=INTEGER}, #{resDriver,jdbcType=VARCHAR}, #{resDriverTel,jdbcType=VARCHAR}, 
       #{startAddress,jdbcType=VARCHAR}, #{endAddress,jdbcType=VARCHAR}, #{travelAgency,jdbcType=VARCHAR}, 
       #{travelAgencyResponsibility,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{driver,jdbcType=VARCHAR}, 
-      #{driverTel,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{orderName,jdbcType=VARCHAR}, 
-      #{orderResponse,jdbcType=VARCHAR}, #{payWay,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{carSupply,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+      #{driverTel,jdbcType=VARCHAR}, #{orderName,jdbcType=VARCHAR}, #{orderResponse,jdbcType=VARCHAR}, 
+      #{payWay,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{carSupply,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, #{descriptionFile,jdbcType=VARCHAR}, 
+      #{invoiceStatus,jdbcType=VARCHAR}, #{officialSettlementForm,jdbcType=VARCHAR}, 
+      #{officialSettlementFormFile,jdbcType=VARCHAR}, #{kilometerFees,jdbcType=DECIMAL}, 
+      #{kilometerFeesFile,jdbcType=VARCHAR}, #{roadFees,jdbcType=DECIMAL}, #{roadFeesFile,jdbcType=VARCHAR}, 
+      #{parkingFees,jdbcType=DECIMAL}, #{parkingFeesFile,jdbcType=VARCHAR}, #{hotelFees,jdbcType=DECIMAL}, 
+      #{hotelFeesFile,jdbcType=VARCHAR}, #{foodFees,jdbcType=DECIMAL}, #{foodFeesFile,jdbcType=VARCHAR}, 
+      #{waterFees,jdbcType=DECIMAL}, #{waterFeesFile,jdbcType=VARCHAR}, #{otherFees,jdbcType=DECIMAL}, 
+      #{otherFeesFile,jdbcType=VARCHAR}, #{price2,jdbcType=DECIMAL}, #{accountingFlag,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.xx.domain.CarScheduleTable" useGeneratedKeys="true">
     insert into car_schedule_table
@@ -197,9 +241,6 @@
       <if test="driverTel != null">
         driver_tel,
       </if>
-      <if test="description != null">
-        description,
-      </if>
       <if test="orderName != null">
         order_name,
       </if>
@@ -217,6 +258,69 @@
       </if>
       <if test="createTime != null">
         create_time,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="descriptionFile != null">
+        description_file,
+      </if>
+      <if test="invoiceStatus != null">
+        invoice_status,
+      </if>
+      <if test="officialSettlementForm != null">
+        official_settlement_form,
+      </if>
+      <if test="officialSettlementFormFile != null">
+        official_settlement_form_file,
+      </if>
+      <if test="kilometerFees != null">
+        kilometer_fees,
+      </if>
+      <if test="kilometerFeesFile != null">
+        kilometer_fees_file,
+      </if>
+      <if test="roadFees != null">
+        road_fees,
+      </if>
+      <if test="roadFeesFile != null">
+        road_fees_file,
+      </if>
+      <if test="parkingFees != null">
+        parking_fees,
+      </if>
+      <if test="parkingFeesFile != null">
+        parking_fees_file,
+      </if>
+      <if test="hotelFees != null">
+        hotel_fees,
+      </if>
+      <if test="hotelFeesFile != null">
+        hotel_fees_file,
+      </if>
+      <if test="foodFees != null">
+        food_fees,
+      </if>
+      <if test="foodFeesFile != null">
+        food_fees_file,
+      </if>
+      <if test="waterFees != null">
+        water_fees,
+      </if>
+      <if test="waterFeesFile != null">
+        water_fees_file,
+      </if>
+      <if test="otherFees != null">
+        other_fees,
+      </if>
+      <if test="otherFeesFile != null">
+        other_fees_file,
+      </if>
+      <if test="price2 != null">
+        price2,
+      </if>
+      <if test="accountingFlag != null">
+        accounting_flag,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -259,9 +363,6 @@
       <if test="driverTel != null">
         #{driverTel,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
       <if test="orderName != null">
         #{orderName,jdbcType=VARCHAR},
       </if>
@@ -279,6 +380,69 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="descriptionFile != null">
+        #{descriptionFile,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceStatus != null">
+        #{invoiceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="officialSettlementForm != null">
+        #{officialSettlementForm,jdbcType=VARCHAR},
+      </if>
+      <if test="officialSettlementFormFile != null">
+        #{officialSettlementFormFile,jdbcType=VARCHAR},
+      </if>
+      <if test="kilometerFees != null">
+        #{kilometerFees,jdbcType=DECIMAL},
+      </if>
+      <if test="kilometerFeesFile != null">
+        #{kilometerFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="roadFees != null">
+        #{roadFees,jdbcType=DECIMAL},
+      </if>
+      <if test="roadFeesFile != null">
+        #{roadFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingFees != null">
+        #{parkingFees,jdbcType=DECIMAL},
+      </if>
+      <if test="parkingFeesFile != null">
+        #{parkingFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelFees != null">
+        #{hotelFees,jdbcType=DECIMAL},
+      </if>
+      <if test="hotelFeesFile != null">
+        #{hotelFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="foodFees != null">
+        #{foodFees,jdbcType=DECIMAL},
+      </if>
+      <if test="foodFeesFile != null">
+        #{foodFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="waterFees != null">
+        #{waterFees,jdbcType=DECIMAL},
+      </if>
+      <if test="waterFeesFile != null">
+        #{waterFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="otherFees != null">
+        #{otherFees,jdbcType=DECIMAL},
+      </if>
+      <if test="otherFeesFile != null">
+        #{otherFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="price2 != null">
+        #{price2,jdbcType=DECIMAL},
+      </if>
+      <if test="accountingFlag != null">
+        #{accountingFlag,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -333,9 +497,6 @@
       <if test="record.driverTel != null">
         driver_tel = #{record.driverTel,jdbcType=VARCHAR},
       </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
-      </if>
       <if test="record.orderName != null">
         order_name = #{record.orderName,jdbcType=VARCHAR},
       </if>
@@ -353,6 +514,69 @@
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.descriptionFile != null">
+        description_file = #{record.descriptionFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceStatus != null">
+        invoice_status = #{record.invoiceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officialSettlementForm != null">
+        official_settlement_form = #{record.officialSettlementForm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officialSettlementFormFile != null">
+        official_settlement_form_file = #{record.officialSettlementFormFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kilometerFees != null">
+        kilometer_fees = #{record.kilometerFees,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kilometerFeesFile != null">
+        kilometer_fees_file = #{record.kilometerFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roadFees != null">
+        road_fees = #{record.roadFees,jdbcType=DECIMAL},
+      </if>
+      <if test="record.roadFeesFile != null">
+        road_fees_file = #{record.roadFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parkingFees != null">
+        parking_fees = #{record.parkingFees,jdbcType=DECIMAL},
+      </if>
+      <if test="record.parkingFeesFile != null">
+        parking_fees_file = #{record.parkingFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hotelFees != null">
+        hotel_fees = #{record.hotelFees,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hotelFeesFile != null">
+        hotel_fees_file = #{record.hotelFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.foodFees != null">
+        food_fees = #{record.foodFees,jdbcType=DECIMAL},
+      </if>
+      <if test="record.foodFeesFile != null">
+        food_fees_file = #{record.foodFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.waterFees != null">
+        water_fees = #{record.waterFees,jdbcType=DECIMAL},
+      </if>
+      <if test="record.waterFeesFile != null">
+        water_fees_file = #{record.waterFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherFees != null">
+        other_fees = #{record.otherFees,jdbcType=DECIMAL},
+      </if>
+      <if test="record.otherFeesFile != null">
+        other_fees_file = #{record.otherFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price2 != null">
+        price2 = #{record.price2,jdbcType=DECIMAL},
+      </if>
+      <if test="record.accountingFlag != null">
+        accounting_flag = #{record.accountingFlag,jdbcType=DECIMAL},
       </if>
     </set>
     <if test="_parameter != null">
@@ -375,13 +599,33 @@
       price = #{record.price,jdbcType=DECIMAL},
       driver = #{record.driver,jdbcType=VARCHAR},
       driver_tel = #{record.driverTel,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
       order_name = #{record.orderName,jdbcType=VARCHAR},
       order_response = #{record.orderResponse,jdbcType=VARCHAR},
       pay_way = #{record.payWay,jdbcType=VARCHAR},
       `status` = #{record.status,jdbcType=VARCHAR},
       car_supply = #{record.carSupply,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      description = #{record.description,jdbcType=VARCHAR},
+      description_file = #{record.descriptionFile,jdbcType=VARCHAR},
+      invoice_status = #{record.invoiceStatus,jdbcType=VARCHAR},
+      official_settlement_form = #{record.officialSettlementForm,jdbcType=VARCHAR},
+      official_settlement_form_file = #{record.officialSettlementFormFile,jdbcType=VARCHAR},
+      kilometer_fees = #{record.kilometerFees,jdbcType=DECIMAL},
+      kilometer_fees_file = #{record.kilometerFeesFile,jdbcType=VARCHAR},
+      road_fees = #{record.roadFees,jdbcType=DECIMAL},
+      road_fees_file = #{record.roadFeesFile,jdbcType=VARCHAR},
+      parking_fees = #{record.parkingFees,jdbcType=DECIMAL},
+      parking_fees_file = #{record.parkingFeesFile,jdbcType=VARCHAR},
+      hotel_fees = #{record.hotelFees,jdbcType=DECIMAL},
+      hotel_fees_file = #{record.hotelFeesFile,jdbcType=VARCHAR},
+      food_fees = #{record.foodFees,jdbcType=DECIMAL},
+      food_fees_file = #{record.foodFeesFile,jdbcType=VARCHAR},
+      water_fees = #{record.waterFees,jdbcType=DECIMAL},
+      water_fees_file = #{record.waterFeesFile,jdbcType=VARCHAR},
+      other_fees = #{record.otherFees,jdbcType=DECIMAL},
+      other_fees_file = #{record.otherFeesFile,jdbcType=VARCHAR},
+      price2 = #{record.price2,jdbcType=DECIMAL},
+      accounting_flag = #{record.accountingFlag,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -428,9 +672,6 @@
       <if test="driverTel != null">
         driver_tel = #{driverTel,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
       <if test="orderName != null">
         order_name = #{orderName,jdbcType=VARCHAR},
       </if>
@@ -448,6 +689,69 @@
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="descriptionFile != null">
+        description_file = #{descriptionFile,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceStatus != null">
+        invoice_status = #{invoiceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="officialSettlementForm != null">
+        official_settlement_form = #{officialSettlementForm,jdbcType=VARCHAR},
+      </if>
+      <if test="officialSettlementFormFile != null">
+        official_settlement_form_file = #{officialSettlementFormFile,jdbcType=VARCHAR},
+      </if>
+      <if test="kilometerFees != null">
+        kilometer_fees = #{kilometerFees,jdbcType=DECIMAL},
+      </if>
+      <if test="kilometerFeesFile != null">
+        kilometer_fees_file = #{kilometerFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="roadFees != null">
+        road_fees = #{roadFees,jdbcType=DECIMAL},
+      </if>
+      <if test="roadFeesFile != null">
+        road_fees_file = #{roadFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingFees != null">
+        parking_fees = #{parkingFees,jdbcType=DECIMAL},
+      </if>
+      <if test="parkingFeesFile != null">
+        parking_fees_file = #{parkingFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelFees != null">
+        hotel_fees = #{hotelFees,jdbcType=DECIMAL},
+      </if>
+      <if test="hotelFeesFile != null">
+        hotel_fees_file = #{hotelFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="foodFees != null">
+        food_fees = #{foodFees,jdbcType=DECIMAL},
+      </if>
+      <if test="foodFeesFile != null">
+        food_fees_file = #{foodFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="waterFees != null">
+        water_fees = #{waterFees,jdbcType=DECIMAL},
+      </if>
+      <if test="waterFeesFile != null">
+        water_fees_file = #{waterFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="otherFees != null">
+        other_fees = #{otherFees,jdbcType=DECIMAL},
+      </if>
+      <if test="otherFeesFile != null">
+        other_fees_file = #{otherFeesFile,jdbcType=VARCHAR},
+      </if>
+      <if test="price2 != null">
+        price2 = #{price2,jdbcType=DECIMAL},
+      </if>
+      <if test="accountingFlag != null">
+        accounting_flag = #{accountingFlag,jdbcType=DECIMAL},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -467,13 +771,33 @@
       price = #{price,jdbcType=DECIMAL},
       driver = #{driver,jdbcType=VARCHAR},
       driver_tel = #{driverTel,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
       order_name = #{orderName,jdbcType=VARCHAR},
       order_response = #{orderResponse,jdbcType=VARCHAR},
       pay_way = #{payWay,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=VARCHAR},
       car_supply = #{carSupply,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      description_file = #{descriptionFile,jdbcType=VARCHAR},
+      invoice_status = #{invoiceStatus,jdbcType=VARCHAR},
+      official_settlement_form = #{officialSettlementForm,jdbcType=VARCHAR},
+      official_settlement_form_file = #{officialSettlementFormFile,jdbcType=VARCHAR},
+      kilometer_fees = #{kilometerFees,jdbcType=DECIMAL},
+      kilometer_fees_file = #{kilometerFeesFile,jdbcType=VARCHAR},
+      road_fees = #{roadFees,jdbcType=DECIMAL},
+      road_fees_file = #{roadFeesFile,jdbcType=VARCHAR},
+      parking_fees = #{parkingFees,jdbcType=DECIMAL},
+      parking_fees_file = #{parkingFeesFile,jdbcType=VARCHAR},
+      hotel_fees = #{hotelFees,jdbcType=DECIMAL},
+      hotel_fees_file = #{hotelFeesFile,jdbcType=VARCHAR},
+      food_fees = #{foodFees,jdbcType=DECIMAL},
+      food_fees_file = #{foodFeesFile,jdbcType=VARCHAR},
+      water_fees = #{waterFees,jdbcType=DECIMAL},
+      water_fees_file = #{waterFeesFile,jdbcType=VARCHAR},
+      other_fees = #{otherFees,jdbcType=DECIMAL},
+      other_fees_file = #{otherFeesFile,jdbcType=VARCHAR},
+      price2 = #{price2,jdbcType=DECIMAL},
+      accounting_flag = #{accountingFlag,jdbcType=DECIMAL}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

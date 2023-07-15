@@ -18,7 +18,7 @@
             </el-row>
         </el-header>
         <el-main style="padding-top: 0px">
-            <el-table :data="tableData" height="440" border v-loading="loading">
+            <el-table :data="tableData" :height="TableHeight" border v-loading="loading">
                 <template slot="empty">
                     <p>{{dataText}}</p>
                 </template>
@@ -150,7 +150,9 @@
         methods: {
             initTable(){
                 let me=this;
+                me.loading=true;
                 axios.get('../../demo/getStaffInfoList').then(res=>{
+                    me.loading=false;
                     if(res.data!=''){
                         me.jsonData=me.tableData=res.data;
                     }
@@ -187,8 +189,6 @@
             },
             submitFunc(){
                 let me=this;
-                me.dialogFormVisible = false;
-                me.loading=true;
                 let tableData=me.jsonData;
                 if(me.flag=='add'){
                     let v=me.form;
@@ -196,8 +196,8 @@
                         if (valid) {
                             axios.post('../../demo/addStaffInfo',v).then(res=>{
                                 if(res.data!=''){
+                                    me.dialogFormVisible = false;
                                     me.initTable();
-                                    me.loading=false;
                                     me.$message({
                                         type: 'success',
                                         message: '新增数据成功！'
@@ -224,8 +224,8 @@
                     let item=me.form;
                     axios.post('../../demo/editStaffInfo',item).then(res=>{
                         if(res.data!=''){
-                            me.initTable();
                             me.dialogFormVisible = false;
+                            me.initTable();
                             me.$message({
                                 type: 'success',
                                 message: '编辑数据成功！'
@@ -284,6 +284,11 @@
         },
         computed: {
 
+        },
+        created() {
+            //动态计算表格高度
+            let windowHeight = document.documentElement.clientHeight || document.bodyclientHeight;
+            this.TableHeight = windowHeight - 100;
         },
         mounted() {
             this.initTable();

@@ -1,18 +1,28 @@
 package com.xx.controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mchange.io.FileUtils;
+import com.sun.imageio.plugins.common.ImageUtil;
 import com.xx.domain.*;
 import com.xx.service.MajorFuncService;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/demo")
@@ -135,6 +145,14 @@ public class Controller {
     public List<CarScheduleTable> getCarScheduleTableList(String date){
         return MajorFuncService.getCarScheduleTableList(date);
     }
+    @GetMapping("/getOrderNameList")
+    public List<CarScheduleTable> getOrderNameList(){
+        return MajorFuncService.getOrderNameList();
+    }
+    @GetMapping("/getCarScheduleByOrderNumber")
+    public List<CarScheduleTable> getCarScheduleByOrderNumber(String orderName){
+        return MajorFuncService.getCarScheduleByOrderNumber(orderName);
+    }
     @GetMapping("/getDriverByCarNumber")
     public List<Map<String,Object>> getDriverByCarNumber(String carNumber){
         return MajorFuncService.getDriverByCarNumber(carNumber);
@@ -154,6 +172,43 @@ public class Controller {
     @PostMapping( "/deleteCarScheduleTable")
     public int deleteCarScheduleTable(@RequestBody CarScheduleTable CarScheduleTable){
         return MajorFuncService.deleteCarScheduleTable(CarScheduleTable.getId());
+    }
+
+
+    /**
+     * 接收上传文件的接口
+     * @param urlFile 上传的文件
+     * @param request 请求
+     * @return
+     */
+    @PostMapping("/upload")
+    public String upload(@RequestParam("file") MultipartFile urlFile,HttpServletRequest request) {
+        //  url =》 http://localhost:8899/upload
+        StringBuffer url = request.getRequestURL();
+        // 意思是 取出ip地址加端口 http://localhost:8899
+        String baseUrl = url.substring(0, url.length() - (url.length() - url.lastIndexOf("/")));
+        // 文件名称
+        String fileName = System.currentTimeMillis() + urlFile.getOriginalFilename();
+        // 文件存储的路径
+//        String filePath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\img\\";
+        String filePath="G\\upload_files\\";
+        File file = new File(filePath);
+        // 当文件夹不存在 创建文件夹
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        File dest = new File(filePath + fileName);
+        String storeUrlPath = "/img/" + fileName;
+
+        try {
+            // 写到文件夹中
+            urlFile.transferTo(dest);
+            System.out.println("上传成功");
+        } catch (IOException e) {
+            System.out.println("上传失败");
+            throw new RuntimeException(e);
+        }
+        return baseUrl+storeUrlPath;
     }
 
 

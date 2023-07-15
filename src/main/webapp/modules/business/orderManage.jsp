@@ -22,14 +22,20 @@
                       prefix-icon="el-icon-search" @change="search('driver')"></el-input>
             <el-input placeholder="车牌号" autocomplete="false" v-model="carNumber"
                       prefix-icon="el-icon-search" @change="search('carNumber')"></el-input>
+            <el-select v-model="status" filterable @change="search('status')">
+                <el-option label="所有状态" value="" selected></el-option>
+                <el-option label="未收款" value="未收款"></el-option>
+                <el-option label="已收款" value="已收款"></el-option>
+            </el-select>
             &nbsp;&nbsp;
             <el-button type="primary" icon="el-icon-refresh" @click="initTable">刷新</el-button>
         </el-header>
         <el-main style="padding-top: 0px">
-            <el-table :data="tableData" height="440" border  v-loading="loading">
+            <el-table :data="tableData" border v-loading="loading" :height="TableHeight">
                 <template slot="empty">
                     <p>{{dataText}}</p>
                 </template>
+                <el-table-column type="index" label="序号" width="80"></el-table-column>
                 <el-table-column prop="orderName" label="团号" width="100"></el-table-column>
                 <el-table-column prop="carNumber" label="车牌号" width="100"></el-table-column>
                 <el-table-column prop="driver" label="驾驶员"></el-table-column>
@@ -45,8 +51,9 @@
                 <el-table-column prop="price" label="车价"></el-table-column>
                 <el-table-column label="操作" width="140" fixed="right" >
                     <template slot-scope="scope">
-                        <el-button @click="editFunc(scope.row,'出车安排修改')" type="text"><i class="el-icon-edit"></i>修改</el-button>
-                        <el-button @click="editFunc(scope.row,'费用管理')" type="text"><i class="el-icon-money"></i>管理</el-button>
+                        <el-button v-if="scope.row.showOpr" @click="editFunc(scope.row,'出车安排修改')" type="text"><i class="el-icon-edit"></i>修改</el-button>
+                        <el-button v-if="scope.row.showOpr" @click="editFunc(scope.row,'费用管理')" type="text"><i class="el-icon-money"></i>管理</el-button>
+                        <el-button v-if="!scope.row.showOpr" @click="goBack(scope.row)" type="text"><i class="el-icon-money"></i>回退</el-button>
                        <%-- <el-button @click="deleteFunc(scope.row)" type="text"><i class="el-icon-delete"></i>删除</el-button>--%>
                     </template>
                 </el-table-column>
@@ -55,22 +62,22 @@
     </el-container>
 
     <el-dialog :title="title" :visible.sync="dialogVisible">
-    <el-form :model="form"  ref="roleForm" :rules="rules" :inline="true" class="demo-form-inline">
-    <el-form-item label="行程简述" :label-width="formLabelWidth" prop="description">
-            <el-input  v-model="form.description" autocomplete="off" placeholder="行程简述"></el-input>
+    <el-form :model="form"  ref="roleForm" :rules="rules" :inline="true" class="demo-form-inline" >
+        <el-form-item v-if="!payVisible" label="行程简述" :label-width="formLabelWidth" prop="description">
+            <el-input  v-model="form.description" autocomplete="off" placeholder="行程简述" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="团号" :label-width="formLabelWidth" prop="orderName">
-            <el-input  v-model="form.orderName" autocomplete="off" placeholder="团号"></el-input>
+        <el-form-item v-if="!payVisible" label="团号" :label-width="formLabelWidth" prop="orderName">
+            <el-input  v-model="form.orderName" autocomplete="off" placeholder="团号" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="详细描述" :label-width="formLabelWidth" prop="detail">
             <el-input type="textarea" v-model="form.detail" style="width: 435px;" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="车牌号" :label-width="formLabelWidth" prop="carNumber">
+        <el-form-item v-if="!payVisible" label="车牌号" :label-width="formLabelWidth" prop="carNumber">
             <el-select v-model="form.carNumber" filterable placeholder="车牌号" @change="getResDriver">
                 <el-option v-for="item in carOptions" :key="item.carNumber" :label="item.carNumber" :value="item.carNumber"></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item :label-width="formLabelWidth" label="出车时间" required>
+        <el-form-item v-if="!payVisible" :label-width="formLabelWidth" label="出车时间" required>
             <el-date-picker
                     v-model="form.time"
                     type="datetimerange"   @change="editJudgeFunc"
@@ -80,33 +87,75 @@
                     :default-time="['08:00:00', '17:00:00']">
             </el-date-picker>
         </el-form-item>
-        <el-form-item label="负责司机" :label-width="formLabelWidth" prop="resDriver">
+        <el-form-item v-if="!payVisible" label="负责司机" :label-width="formLabelWidth" prop="resDriver">
             <el-input v-model="form.resDriver" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="座位数" :label-width="formLabelWidth" prop="passengerCapacity">
+        <el-form-item v-if="!payVisible" label="座位数" :label-width="formLabelWidth" prop="passengerCapacity">
             <el-input v-model="form.passengerCapacity" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="车辆供应商" :label-width="formLabelWidth" prop="carSupply">
+        <el-form-item v-if="!payVisible" label="车辆供应商" :label-width="formLabelWidth" prop="carSupply">
             <el-select v-model="form.carSupply" filterable placeholder="车辆供应商" >
                 <el-option label="公营" value="公营"></el-option>
                 <el-option label="外调" value="外调"></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="跟车司机" :label-width="formLabelWidth" prop="driver">
+        <el-form-item v-if="!payVisible" label="跟车司机" :label-width="formLabelWidth" prop="driver">
             <el-select v-model="form.driver" filterable placeholder="跟车司机">
                 <el-option v-for="item in driverOptions" :key="item.name" :label="item.name" :value="item.name"></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="订单负责人" :label-width="formLabelWidth" prop="orderResponse">
-            <el-select v-model="form.orderResponse" filterable placeholder="订单负责人" >
-                <el-option label="肖剑锋" value="肖剑锋"></el-option>
-                <el-option label="周素芳" value="周素芳"></el-option>
-                <el-option label="肖东升" value="肖东升"></el-option>
+        <el-form-item v-if="payVisible" label="收款状态" :label-width="formLabelWidth" prop="status">
+            <el-select v-model="form.status" filterable placeholder="收款状态" >
+                <el-option label="未收款" value="未收款"></el-option>
+                <el-option label="已收款" value="已收款"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item v-if="payVisible" label="支付方式" :label-width="formLabelWidth" prop="payWay">
+            <el-select v-model="form.payWay" filterable placeholder="支付方式" >
+                <el-option label="挂账" value="挂账"></el-option>
+                <el-option label="现收" value="挂账"></el-option>
+                <el-option label="现付" value="挂账"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item v-if="payVisible" label="公务结算单" :label-width="formLabelWidth" prop="officialSettlementForm">
+            <el-select v-model="form.officialSettlementForm" filterable placeholder="公务结算单" >
+                <el-option label="是" value="是"></el-option>
+                <el-option label="否" value="否"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item v-if="payVisible" label="公里数" :label-width="formLabelWidth" prop="kilometerFees">
+            <el-input v-model.number="form.kilometerFees" autocomplete="off" placeholder="公里数" ></el-input>
+        </el-form-item>
+        <el-form-item v-if="payVisible" label="路桥费" :label-width="formLabelWidth" prop="roadFees">
+            <el-input v-model.number="form.roadFees" autocomplete="off" placeholder="路桥费" ></el-input>
+        </el-form-item>
+        <el-form-item v-if="payVisible" label="停车费" :label-width="formLabelWidth" prop="parkingFees">
+            <el-input v-model.number="form.parkingFees" autocomplete="off" placeholder="停车费" ></el-input>
+        </el-form-item>
+        <el-form-item v-if="payVisible" label="住宿费" :label-width="formLabelWidth" prop="hotelFees">
+            <el-input v-model.number="form.hotelFees" autocomplete="off" placeholder="住宿费" ></el-input>
+        </el-form-item>
+        <el-form-item v-if="payVisible" label="餐费" :label-width="formLabelWidth" prop="foodFees">
+            <el-input v-model.number="form.foodFees" autocomplete="off" placeholder="餐费" ></el-input>
+        </el-form-item>
+        <el-form-item v-if="payVisible" label="水费" :label-width="formLabelWidth" prop="waterFees">
+            <el-input v-model.number="form.waterFees" autocomplete="off" placeholder="水费" ></el-input>
+        </el-form-item>
+        <el-form-item v-if="payVisible" label="杂费" :label-width="formLabelWidth" prop="otherFees">
+            <el-input v-model.number="form.otherFees" autocomplete="off" placeholder="杂费" ></el-input>
+        </el-form-item>
+        <el-form-item v-if="payVisible" label="付出车价" :label-width="formLabelWidth" prop="price2">
+            <el-input v-model.number="form.price2" autocomplete="off" placeholder="付出车价" ></el-input>
+        </el-form-item>
+        <el-form-item v-if="payVisible" label="是否入账" :label-width="formLabelWidth" prop="accountingFlag">
+            <el-select v-model="form.accountingFlag" filterable placeholder="是否入账" >
+                <el-option label="是" :value='1' ></el-option>
+                <el-option label="否" :value='0' ></el-option>
             </el-select>
         </el-form-item>
     </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button @click="dialogVisible = false; payVisible= false;">取 消</el-button>
             <el-button type="primary" @click="editSubmitFunc">确 定</el-button>
         </div>
     </el-dialog>
@@ -120,11 +169,13 @@
                 date:'',
                 driver:'',
                 carNumber:'',
+                status:'',
                 jsonData:[],
                 tableData:[],
                 loading: false,
                 dataText:'',
                 dialogVisible:false,
+                payVisible:false,
                 title:'',
                 form: { "carNumber": null, "description": null, "carSupply":null,
                      "price": null, "driver": null, "driverTel": null,"orderName":null,
@@ -149,12 +200,22 @@
         methods: {
             initTable(){
                 let me=this;
+                me.loading=true;
                 axios({
                     type: 'post',
                     url: '../../demo/getCarScheduleTableList',
                     params: {date:me.date}
                 }).then(res=>{
+                    me.loading=false;
+                    me.jsonData=me.tableData=[];
                     if(res.data!=''){
+                        res.data.forEach(v=>{
+                            if(v.accountingFlag==null || v.accountingFlag==0){
+                                v.showOpr=true;
+                            }else{
+                                v.showOpr=false;
+                            }
+                        });
                         me.jsonData=me.tableData=res.data;
                     }
                 });
@@ -201,25 +262,30 @@
             editFunc(item,type){
                 let me=this;
                 me.dialogVisible = true;
+                me.payVisible=false;
                 me.form=item;
                 item.detail=item.startTime+"-"+item.endTime+","+item.passengerCapacity+"座,"
                     +item.startAddress+"-"+item.endAddress+",联系人："+item.travelAgencyResponsibility;
                 me.title=type;
                 me.$set(item, "time", [item.startTime,item.endTime]);
-                axios.post('../../demo/judgeIfEmpty',{carNumber:"",startTime:item.startTime,endTime:item.endTime,id:0}).then(res=> {
-                    if(res.data!='' && res.data.length>0) {
-                        me.carOptions = [];
-                        for(let i=0;i<me.cars.length;i++){
-                            let flag=0;
-                            for(let j=0;j<res.data.length;j++){
-                                if(me.cars[i].carNumber==res.data[j].carNumber && res.data[j].carNumber!=item.carNumber){
-                                    flag=1;break;
+                if(type=="出车安排修改"){
+                    axios.post('../../demo/judgeIfEmpty',{carNumber:"",startTime:item.startTime,endTime:item.endTime,id:0}).then(res=> {
+                        if(res.data!='' && res.data.length>0) {
+                            me.carOptions = [];
+                            for(let i=0;i<me.cars.length;i++){
+                                let flag=0;
+                                for(let j=0;j<res.data.length;j++){
+                                    if(me.cars[i].carNumber==res.data[j].carNumber && res.data[j].carNumber!=item.carNumber){
+                                        flag=1;break;
+                                    }
                                 }
+                                if(flag==0) me.carOptions.push(me.cars[i]);
                             }
-                            if(flag==0) me.carOptions.push(me.cars[i]);
                         }
-                    }
-                });
+                    });
+                }else{
+                    me.payVisible=true;
+                }
             },
             editJudgeFunc(){
                 let v=this.form;
@@ -233,26 +299,38 @@
                 }
             },
             editSubmitFunc(){
-              let me=this;
-              let item=me.form;
-                me.dialogVisible = false;
-                me.loading=true;
+                let me=this;
+                let item=me.form;
+                me.payVisible=false;
                 item.startTime=item.time[0];
                 item.endTime=item.time[1];
-                if(me.title=='出车安排修改'){
-                    axios.post('../../demo/editCarScheduleTable',item).then(res=>{
-                        if(res.data!=''){
-                            me.initTable();
-                            me.loading=false;
-                            me.$message({
-                                type: 'success',
-                                message: '编辑数据成功！'
-                            });
-                        }
-                    },err=>{
-                        alert("编辑数据失败！");
-                    });
-                }
+                axios.post('../../demo/editCarScheduleTable',item).then(res=>{
+                    if(res.data!=''){
+                        me.dialogVisible = false;
+                        me.initTable();
+                        me.$message({
+                            type: 'success',
+                            message: '编辑数据成功！'
+                        });
+                    }
+                },err=>{
+                    alert("编辑数据失败！");
+                });
+            },
+            goBack(item){
+                let me=this;
+                item.accountingFlag=0;
+                axios.post('../../demo/editCarScheduleTable',item).then(res=>{
+                    if(res.data!=''){
+                        me.initTable();
+                        me.$message({
+                            type: 'success',
+                            message: '回退成功！'
+                        });
+                    }
+                },err=>{
+                    alert("回退失败！");
+                });
             },
        /*     deleteFunc(item) {
                 let me=this;
@@ -279,7 +357,11 @@
             },*/
         },
         computed: {
-
+        },
+        created() {
+            //动态计算表格高度
+            let windowHeight = document.documentElement.clientHeight || document.bodyclientHeight;
+            this.TableHeight = windowHeight - 100;
         },
         mounted() {
             let me=this;

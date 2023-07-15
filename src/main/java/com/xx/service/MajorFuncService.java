@@ -1,6 +1,7 @@
 package com.xx.service;
 
 import com.xx.domain.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -37,12 +38,13 @@ public interface MajorFuncService {
 
     List<Map<String,Object>> getCarScheduleTable(String date) throws ParseException ;
     List<CarScheduleTable> getCarScheduleTableList(String date);
+    List<CarScheduleTable> getOrderNameList();
+    List<CarScheduleTable> getCarScheduleByOrderNumber(String orderNumber);
     List<Map<String,Object>> getDriverByCarNumber(String carNumber);
     List<CarScheduleTable> judgeIfEmpty(CarScheduleTable CarScheduleTable);
     int addCarScheduleTable(CarScheduleTable CarScheduleTable);
     int editCarScheduleTable(CarScheduleTable CarScheduleTable);
     int deleteCarScheduleTable(Long id);
-
 
 
 

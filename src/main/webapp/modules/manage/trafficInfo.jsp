@@ -20,7 +20,7 @@
             </el-row>
         </el-header>
         <el-main style="padding-top: 0px">
-            <el-table :data="tableData" height="440" border v-loading="loading">
+            <el-table :data="tableData" :height="TableHeight" border v-loading="loading">
                 <template slot="empty">
                     <p>{{dataText}}</p>
                 </template>
@@ -31,6 +31,17 @@
                 <el-table-column prop="passengerCapacity" label="载客数"></el-table-column>
                 <el-table-column prop="carType" label="车辆型号"></el-table-column>
                 <el-table-column prop="buyDate" label="购入年份"></el-table-column>
+                <el-table-column prop="tag" label="标签" width="100"
+                        :filters="[{ text: '超期', value: '超期' }, { text: '未超期', value: '未超期' }]"
+                        :filter-method="filterTag" filter-placement="bottom-end">
+
+                        <template slot-scope="scope">
+                            <el-popover width="200" trigger="hover" :content="scope.row.tagDetail">
+                                <el-tag slot="reference" :type="scope.row.tag === '超期' ? 'warning' : 'success'" disable-transitions>{{scope.row.tag}}</el-tag>
+                            </el-popover>
+                        </template>
+
+                </el-table-column>
                 <el-table-column label="操作" width="150">
                     <template slot-scope="scope">
                         <el-button @click="editFunc(scope.row)" type="text"><i class="el-icon-edit"></i>编辑</el-button>
@@ -173,8 +184,28 @@
         methods: {
             initTable(){
                 let me=this;
+                me.loading=true;
+                let today=getNowDay();
                 axios.get('../../demo/getTrafficInfoList').then(res=>{
+                    me.loading=false;
                     if(res.data!=''){
+                        res.data.forEach(v=>{
+                            v.tag='未超期';
+                            v.drivingLicenseDay=getDiffDay(today,v.drivingLicense);
+                            v.tradingLicenseDay=getDiffDay(today,v.tradingLicense);
+                            v.operatingLicenseDay=getDiffDay(today,v.operatingLicense);
+                            v.approvalLicenseDay=getDiffDay(today,v.approvalLicense);
+                            v.evaluationLicenseDay=getDiffDay(today,v.evaluationLicense);
+                            if(v.drivingLicenseDay<30 || v.tradingLicenseDay<30 || v.operatingLicenseDay<30 || v.approvalLicenseDay<30 || v.evaluationLicenseDay<30){
+                                v.tag='超期';
+                                v.tagDetail='';
+                                if(v.drivingLicenseDay<30) v.tagDetail+='行驶证有效期剩余天数：'+v.drivingLicenseDay+'天；';
+                                if(v.tradingLicenseDay<30) v.tagDetail+='营运证有效期剩余天数：'+v.tradingLicenseDay+'天；';
+                                if(v.operatingLicenseDay<30) v.tagDetail+='营运代理证有效期剩余天数：'+v.operatingLicenseDay+'天；';
+                                if(v.approvalLicenseDay<30) v.tagDetail+='核准证证有效期剩余天数：'+v.approvalLicenseDay+'天；';
+                                if(v.evaluationLicenseDay<30) v.tagDetail+='车评有效期剩余天数：'+v.evaluationLicenseDay+'天；';
+                            }
+                        });
                         me.jsonData=me.tableData=res.data;
                     }
                 });
@@ -209,8 +240,6 @@
             },
             submitFunc(){
                 let me=this;
-                me.dialogFormVisible = false;
-                me.loading=true;
                 let tableData=me.jsonData;
                 if(me.flag=='add'){
                     let v=me.form;
@@ -218,8 +247,8 @@
                         if (valid) {
                             axios.post('../../demo/addTrafficInfo',v).then(res=>{
                                 if(res.data!=''){
+                                    me.dialogFormVisible = false;
                                     me.initTable();
-                                    me.loading=false;
                                     me.$message({
                                         type: 'success',
                                         message: '新增数据成功！'
@@ -302,10 +331,18 @@
                         }
                     });
                 }
-            }
+            },
+            filterTag(value, row) {
+                return row.tag === value;
+            },
         },
         computed: {
 
+        },
+        created() {
+            //动态计算表格高度
+            let windowHeight = document.documentElement.clientHeight || document.bodyclientHeight;
+            this.TableHeight = windowHeight - 100;
         },
         mounted() {
             this.initTable();

@@ -1,6 +1,5 @@
 package com.xx.domain;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -866,52 +865,52 @@ public class CarScheduleTableExample {
             return (Criteria) this;
         }
 
-        public Criteria andPriceEqualTo(BigDecimal value) {
+        public Criteria andPriceEqualTo(Long value) {
             addCriterion("price =", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotEqualTo(BigDecimal value) {
+        public Criteria andPriceNotEqualTo(Long value) {
             addCriterion("price <>", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceGreaterThan(BigDecimal value) {
+        public Criteria andPriceGreaterThan(Long value) {
             addCriterion("price >", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceGreaterThanOrEqualTo(BigDecimal value) {
+        public Criteria andPriceGreaterThanOrEqualTo(Long value) {
             addCriterion("price >=", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceLessThan(BigDecimal value) {
+        public Criteria andPriceLessThan(Long value) {
             addCriterion("price <", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceLessThanOrEqualTo(BigDecimal value) {
+        public Criteria andPriceLessThanOrEqualTo(Long value) {
             addCriterion("price <=", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceIn(List<BigDecimal> values) {
+        public Criteria andPriceIn(List<Long> values) {
             addCriterion("price in", values, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotIn(List<BigDecimal> values) {
+        public Criteria andPriceNotIn(List<Long> values) {
             addCriterion("price not in", values, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andPriceBetween(Long value1, Long value2) {
             addCriterion("price between", value1, value2, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andPriceNotBetween(Long value1, Long value2) {
             addCriterion("price not between", value1, value2, "price");
             return (Criteria) this;
         }
@@ -1053,76 +1052,6 @@ public class CarScheduleTableExample {
 
         public Criteria andDriverTelNotBetween(String value1, String value2) {
             addCriterion("driver_tel not between", value1, value2, "driverTel");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIsNull() {
-            addCriterion("description is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIsNotNull() {
-            addCriterion("description is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionEqualTo(String value) {
-            addCriterion("description =", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotEqualTo(String value) {
-            addCriterion("description <>", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionGreaterThan(String value) {
-            addCriterion("description >", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionGreaterThanOrEqualTo(String value) {
-            addCriterion("description >=", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLessThan(String value) {
-            addCriterion("description <", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLessThanOrEqualTo(String value) {
-            addCriterion("description <=", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLike(String value) {
-            addCriterion("description like", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotLike(String value) {
-            addCriterion("description not like", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIn(List<String> values) {
-            addCriterion("description in", values, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotIn(List<String> values) {
-            addCriterion("description not in", values, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionBetween(String value1, String value2) {
-            addCriterion("description between", value1, value2, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotBetween(String value1, String value2) {
-            addCriterion("description not between", value1, value2, "description");
             return (Criteria) this;
         }
 
@@ -1533,6 +1462,1386 @@ public class CarScheduleTableExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionIsNull() {
+            addCriterion("description is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionIsNotNull() {
+            addCriterion("description is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionEqualTo(String value) {
+            addCriterion("description =", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionNotEqualTo(String value) {
+            addCriterion("description <>", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionGreaterThan(String value) {
+            addCriterion("description >", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionGreaterThanOrEqualTo(String value) {
+            addCriterion("description >=", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionLessThan(String value) {
+            addCriterion("description <", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionLessThanOrEqualTo(String value) {
+            addCriterion("description <=", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionLike(String value) {
+            addCriterion("description like", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionNotLike(String value) {
+            addCriterion("description not like", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionIn(List<String> values) {
+            addCriterion("description in", values, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionNotIn(List<String> values) {
+            addCriterion("description not in", values, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionBetween(String value1, String value2) {
+            addCriterion("description between", value1, value2, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionNotBetween(String value1, String value2) {
+            addCriterion("description not between", value1, value2, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileIsNull() {
+            addCriterion("description_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileIsNotNull() {
+            addCriterion("description_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileEqualTo(String value) {
+            addCriterion("description_file =", value, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileNotEqualTo(String value) {
+            addCriterion("description_file <>", value, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileGreaterThan(String value) {
+            addCriterion("description_file >", value, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileGreaterThanOrEqualTo(String value) {
+            addCriterion("description_file >=", value, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileLessThan(String value) {
+            addCriterion("description_file <", value, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileLessThanOrEqualTo(String value) {
+            addCriterion("description_file <=", value, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileLike(String value) {
+            addCriterion("description_file like", value, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileNotLike(String value) {
+            addCriterion("description_file not like", value, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileIn(List<String> values) {
+            addCriterion("description_file in", values, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileNotIn(List<String> values) {
+            addCriterion("description_file not in", values, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileBetween(String value1, String value2) {
+            addCriterion("description_file between", value1, value2, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionFileNotBetween(String value1, String value2) {
+            addCriterion("description_file not between", value1, value2, "descriptionFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusIsNull() {
+            addCriterion("invoice_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusIsNotNull() {
+            addCriterion("invoice_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusEqualTo(String value) {
+            addCriterion("invoice_status =", value, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusNotEqualTo(String value) {
+            addCriterion("invoice_status <>", value, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusGreaterThan(String value) {
+            addCriterion("invoice_status >", value, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("invoice_status >=", value, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusLessThan(String value) {
+            addCriterion("invoice_status <", value, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusLessThanOrEqualTo(String value) {
+            addCriterion("invoice_status <=", value, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusLike(String value) {
+            addCriterion("invoice_status like", value, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusNotLike(String value) {
+            addCriterion("invoice_status not like", value, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusIn(List<String> values) {
+            addCriterion("invoice_status in", values, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusNotIn(List<String> values) {
+            addCriterion("invoice_status not in", values, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusBetween(String value1, String value2) {
+            addCriterion("invoice_status between", value1, value2, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvoiceStatusNotBetween(String value1, String value2) {
+            addCriterion("invoice_status not between", value1, value2, "invoiceStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormIsNull() {
+            addCriterion("official_settlement_form is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormIsNotNull() {
+            addCriterion("official_settlement_form is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormEqualTo(String value) {
+            addCriterion("official_settlement_form =", value, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormNotEqualTo(String value) {
+            addCriterion("official_settlement_form <>", value, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormGreaterThan(String value) {
+            addCriterion("official_settlement_form >", value, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormGreaterThanOrEqualTo(String value) {
+            addCriterion("official_settlement_form >=", value, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormLessThan(String value) {
+            addCriterion("official_settlement_form <", value, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormLessThanOrEqualTo(String value) {
+            addCriterion("official_settlement_form <=", value, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormLike(String value) {
+            addCriterion("official_settlement_form like", value, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormNotLike(String value) {
+            addCriterion("official_settlement_form not like", value, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormIn(List<String> values) {
+            addCriterion("official_settlement_form in", values, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormNotIn(List<String> values) {
+            addCriterion("official_settlement_form not in", values, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormBetween(String value1, String value2) {
+            addCriterion("official_settlement_form between", value1, value2, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormNotBetween(String value1, String value2) {
+            addCriterion("official_settlement_form not between", value1, value2, "officialSettlementForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileIsNull() {
+            addCriterion("official_settlement_form_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileIsNotNull() {
+            addCriterion("official_settlement_form_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileEqualTo(String value) {
+            addCriterion("official_settlement_form_file =", value, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileNotEqualTo(String value) {
+            addCriterion("official_settlement_form_file <>", value, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileGreaterThan(String value) {
+            addCriterion("official_settlement_form_file >", value, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileGreaterThanOrEqualTo(String value) {
+            addCriterion("official_settlement_form_file >=", value, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileLessThan(String value) {
+            addCriterion("official_settlement_form_file <", value, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileLessThanOrEqualTo(String value) {
+            addCriterion("official_settlement_form_file <=", value, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileLike(String value) {
+            addCriterion("official_settlement_form_file like", value, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileNotLike(String value) {
+            addCriterion("official_settlement_form_file not like", value, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileIn(List<String> values) {
+            addCriterion("official_settlement_form_file in", values, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileNotIn(List<String> values) {
+            addCriterion("official_settlement_form_file not in", values, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileBetween(String value1, String value2) {
+            addCriterion("official_settlement_form_file between", value1, value2, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficialSettlementFormFileNotBetween(String value1, String value2) {
+            addCriterion("official_settlement_form_file not between", value1, value2, "officialSettlementFormFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesIsNull() {
+            addCriterion("kilometer_fees is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesIsNotNull() {
+            addCriterion("kilometer_fees is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesEqualTo(Long value) {
+            addCriterion("kilometer_fees =", value, "kilometerFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesNotEqualTo(Long value) {
+            addCriterion("kilometer_fees <>", value, "kilometerFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesGreaterThan(Long value) {
+            addCriterion("kilometer_fees >", value, "kilometerFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesGreaterThanOrEqualTo(Long value) {
+            addCriterion("kilometer_fees >=", value, "kilometerFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesLessThan(Long value) {
+            addCriterion("kilometer_fees <", value, "kilometerFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesLessThanOrEqualTo(Long value) {
+            addCriterion("kilometer_fees <=", value, "kilometerFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesIn(List<Long> values) {
+            addCriterion("kilometer_fees in", values, "kilometerFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesNotIn(List<Long> values) {
+            addCriterion("kilometer_fees not in", values, "kilometerFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesBetween(Long value1, Long value2) {
+            addCriterion("kilometer_fees between", value1, value2, "kilometerFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesNotBetween(Long value1, Long value2) {
+            addCriterion("kilometer_fees not between", value1, value2, "kilometerFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileIsNull() {
+            addCriterion("kilometer_fees_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileIsNotNull() {
+            addCriterion("kilometer_fees_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileEqualTo(String value) {
+            addCriterion("kilometer_fees_file =", value, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileNotEqualTo(String value) {
+            addCriterion("kilometer_fees_file <>", value, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileGreaterThan(String value) {
+            addCriterion("kilometer_fees_file >", value, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileGreaterThanOrEqualTo(String value) {
+            addCriterion("kilometer_fees_file >=", value, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileLessThan(String value) {
+            addCriterion("kilometer_fees_file <", value, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileLessThanOrEqualTo(String value) {
+            addCriterion("kilometer_fees_file <=", value, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileLike(String value) {
+            addCriterion("kilometer_fees_file like", value, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileNotLike(String value) {
+            addCriterion("kilometer_fees_file not like", value, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileIn(List<String> values) {
+            addCriterion("kilometer_fees_file in", values, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileNotIn(List<String> values) {
+            addCriterion("kilometer_fees_file not in", values, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileBetween(String value1, String value2) {
+            addCriterion("kilometer_fees_file between", value1, value2, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andKilometerFeesFileNotBetween(String value1, String value2) {
+            addCriterion("kilometer_fees_file not between", value1, value2, "kilometerFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesIsNull() {
+            addCriterion("road_fees is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesIsNotNull() {
+            addCriterion("road_fees is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesEqualTo(Long value) {
+            addCriterion("road_fees =", value, "roadFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesNotEqualTo(Long value) {
+            addCriterion("road_fees <>", value, "roadFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesGreaterThan(Long value) {
+            addCriterion("road_fees >", value, "roadFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesGreaterThanOrEqualTo(Long value) {
+            addCriterion("road_fees >=", value, "roadFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesLessThan(Long value) {
+            addCriterion("road_fees <", value, "roadFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesLessThanOrEqualTo(Long value) {
+            addCriterion("road_fees <=", value, "roadFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesIn(List<Long> values) {
+            addCriterion("road_fees in", values, "roadFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesNotIn(List<Long> values) {
+            addCriterion("road_fees not in", values, "roadFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesBetween(Long value1, Long value2) {
+            addCriterion("road_fees between", value1, value2, "roadFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesNotBetween(Long value1, Long value2) {
+            addCriterion("road_fees not between", value1, value2, "roadFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileIsNull() {
+            addCriterion("road_fees_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileIsNotNull() {
+            addCriterion("road_fees_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileEqualTo(String value) {
+            addCriterion("road_fees_file =", value, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileNotEqualTo(String value) {
+            addCriterion("road_fees_file <>", value, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileGreaterThan(String value) {
+            addCriterion("road_fees_file >", value, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileGreaterThanOrEqualTo(String value) {
+            addCriterion("road_fees_file >=", value, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileLessThan(String value) {
+            addCriterion("road_fees_file <", value, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileLessThanOrEqualTo(String value) {
+            addCriterion("road_fees_file <=", value, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileLike(String value) {
+            addCriterion("road_fees_file like", value, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileNotLike(String value) {
+            addCriterion("road_fees_file not like", value, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileIn(List<String> values) {
+            addCriterion("road_fees_file in", values, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileNotIn(List<String> values) {
+            addCriterion("road_fees_file not in", values, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileBetween(String value1, String value2) {
+            addCriterion("road_fees_file between", value1, value2, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoadFeesFileNotBetween(String value1, String value2) {
+            addCriterion("road_fees_file not between", value1, value2, "roadFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesIsNull() {
+            addCriterion("parking_fees is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesIsNotNull() {
+            addCriterion("parking_fees is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesEqualTo(Long value) {
+            addCriterion("parking_fees =", value, "parkingFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesNotEqualTo(Long value) {
+            addCriterion("parking_fees <>", value, "parkingFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesGreaterThan(Long value) {
+            addCriterion("parking_fees >", value, "parkingFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesGreaterThanOrEqualTo(Long value) {
+            addCriterion("parking_fees >=", value, "parkingFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesLessThan(Long value) {
+            addCriterion("parking_fees <", value, "parkingFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesLessThanOrEqualTo(Long value) {
+            addCriterion("parking_fees <=", value, "parkingFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesIn(List<Long> values) {
+            addCriterion("parking_fees in", values, "parkingFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesNotIn(List<Long> values) {
+            addCriterion("parking_fees not in", values, "parkingFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesBetween(Long value1, Long value2) {
+            addCriterion("parking_fees between", value1, value2, "parkingFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesNotBetween(Long value1, Long value2) {
+            addCriterion("parking_fees not between", value1, value2, "parkingFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileIsNull() {
+            addCriterion("parking_fees_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileIsNotNull() {
+            addCriterion("parking_fees_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileEqualTo(String value) {
+            addCriterion("parking_fees_file =", value, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileNotEqualTo(String value) {
+            addCriterion("parking_fees_file <>", value, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileGreaterThan(String value) {
+            addCriterion("parking_fees_file >", value, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileGreaterThanOrEqualTo(String value) {
+            addCriterion("parking_fees_file >=", value, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileLessThan(String value) {
+            addCriterion("parking_fees_file <", value, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileLessThanOrEqualTo(String value) {
+            addCriterion("parking_fees_file <=", value, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileLike(String value) {
+            addCriterion("parking_fees_file like", value, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileNotLike(String value) {
+            addCriterion("parking_fees_file not like", value, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileIn(List<String> values) {
+            addCriterion("parking_fees_file in", values, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileNotIn(List<String> values) {
+            addCriterion("parking_fees_file not in", values, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileBetween(String value1, String value2) {
+            addCriterion("parking_fees_file between", value1, value2, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andParkingFeesFileNotBetween(String value1, String value2) {
+            addCriterion("parking_fees_file not between", value1, value2, "parkingFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesIsNull() {
+            addCriterion("hotel_fees is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesIsNotNull() {
+            addCriterion("hotel_fees is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesEqualTo(Long value) {
+            addCriterion("hotel_fees =", value, "hotelFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesNotEqualTo(Long value) {
+            addCriterion("hotel_fees <>", value, "hotelFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesGreaterThan(Long value) {
+            addCriterion("hotel_fees >", value, "hotelFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesGreaterThanOrEqualTo(Long value) {
+            addCriterion("hotel_fees >=", value, "hotelFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesLessThan(Long value) {
+            addCriterion("hotel_fees <", value, "hotelFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesLessThanOrEqualTo(Long value) {
+            addCriterion("hotel_fees <=", value, "hotelFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesIn(List<Long> values) {
+            addCriterion("hotel_fees in", values, "hotelFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesNotIn(List<Long> values) {
+            addCriterion("hotel_fees not in", values, "hotelFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesBetween(Long value1, Long value2) {
+            addCriterion("hotel_fees between", value1, value2, "hotelFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesNotBetween(Long value1, Long value2) {
+            addCriterion("hotel_fees not between", value1, value2, "hotelFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileIsNull() {
+            addCriterion("hotel_fees_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileIsNotNull() {
+            addCriterion("hotel_fees_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileEqualTo(String value) {
+            addCriterion("hotel_fees_file =", value, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileNotEqualTo(String value) {
+            addCriterion("hotel_fees_file <>", value, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileGreaterThan(String value) {
+            addCriterion("hotel_fees_file >", value, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileGreaterThanOrEqualTo(String value) {
+            addCriterion("hotel_fees_file >=", value, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileLessThan(String value) {
+            addCriterion("hotel_fees_file <", value, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileLessThanOrEqualTo(String value) {
+            addCriterion("hotel_fees_file <=", value, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileLike(String value) {
+            addCriterion("hotel_fees_file like", value, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileNotLike(String value) {
+            addCriterion("hotel_fees_file not like", value, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileIn(List<String> values) {
+            addCriterion("hotel_fees_file in", values, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileNotIn(List<String> values) {
+            addCriterion("hotel_fees_file not in", values, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileBetween(String value1, String value2) {
+            addCriterion("hotel_fees_file between", value1, value2, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotelFeesFileNotBetween(String value1, String value2) {
+            addCriterion("hotel_fees_file not between", value1, value2, "hotelFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesIsNull() {
+            addCriterion("food_fees is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesIsNotNull() {
+            addCriterion("food_fees is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesEqualTo(Long value) {
+            addCriterion("food_fees =", value, "foodFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesNotEqualTo(Long value) {
+            addCriterion("food_fees <>", value, "foodFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesGreaterThan(Long value) {
+            addCriterion("food_fees >", value, "foodFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesGreaterThanOrEqualTo(Long value) {
+            addCriterion("food_fees >=", value, "foodFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesLessThan(Long value) {
+            addCriterion("food_fees <", value, "foodFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesLessThanOrEqualTo(Long value) {
+            addCriterion("food_fees <=", value, "foodFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesIn(List<Long> values) {
+            addCriterion("food_fees in", values, "foodFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesNotIn(List<Long> values) {
+            addCriterion("food_fees not in", values, "foodFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesBetween(Long value1, Long value2) {
+            addCriterion("food_fees between", value1, value2, "foodFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesNotBetween(Long value1, Long value2) {
+            addCriterion("food_fees not between", value1, value2, "foodFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileIsNull() {
+            addCriterion("food_fees_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileIsNotNull() {
+            addCriterion("food_fees_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileEqualTo(String value) {
+            addCriterion("food_fees_file =", value, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileNotEqualTo(String value) {
+            addCriterion("food_fees_file <>", value, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileGreaterThan(String value) {
+            addCriterion("food_fees_file >", value, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileGreaterThanOrEqualTo(String value) {
+            addCriterion("food_fees_file >=", value, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileLessThan(String value) {
+            addCriterion("food_fees_file <", value, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileLessThanOrEqualTo(String value) {
+            addCriterion("food_fees_file <=", value, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileLike(String value) {
+            addCriterion("food_fees_file like", value, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileNotLike(String value) {
+            addCriterion("food_fees_file not like", value, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileIn(List<String> values) {
+            addCriterion("food_fees_file in", values, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileNotIn(List<String> values) {
+            addCriterion("food_fees_file not in", values, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileBetween(String value1, String value2) {
+            addCriterion("food_fees_file between", value1, value2, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andFoodFeesFileNotBetween(String value1, String value2) {
+            addCriterion("food_fees_file not between", value1, value2, "foodFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesIsNull() {
+            addCriterion("water_fees is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesIsNotNull() {
+            addCriterion("water_fees is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesEqualTo(Long value) {
+            addCriterion("water_fees =", value, "waterFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesNotEqualTo(Long value) {
+            addCriterion("water_fees <>", value, "waterFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesGreaterThan(Long value) {
+            addCriterion("water_fees >", value, "waterFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesGreaterThanOrEqualTo(Long value) {
+            addCriterion("water_fees >=", value, "waterFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesLessThan(Long value) {
+            addCriterion("water_fees <", value, "waterFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesLessThanOrEqualTo(Long value) {
+            addCriterion("water_fees <=", value, "waterFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesIn(List<Long> values) {
+            addCriterion("water_fees in", values, "waterFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesNotIn(List<Long> values) {
+            addCriterion("water_fees not in", values, "waterFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesBetween(Long value1, Long value2) {
+            addCriterion("water_fees between", value1, value2, "waterFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesNotBetween(Long value1, Long value2) {
+            addCriterion("water_fees not between", value1, value2, "waterFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileIsNull() {
+            addCriterion("water_fees_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileIsNotNull() {
+            addCriterion("water_fees_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileEqualTo(String value) {
+            addCriterion("water_fees_file =", value, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileNotEqualTo(String value) {
+            addCriterion("water_fees_file <>", value, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileGreaterThan(String value) {
+            addCriterion("water_fees_file >", value, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileGreaterThanOrEqualTo(String value) {
+            addCriterion("water_fees_file >=", value, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileLessThan(String value) {
+            addCriterion("water_fees_file <", value, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileLessThanOrEqualTo(String value) {
+            addCriterion("water_fees_file <=", value, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileLike(String value) {
+            addCriterion("water_fees_file like", value, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileNotLike(String value) {
+            addCriterion("water_fees_file not like", value, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileIn(List<String> values) {
+            addCriterion("water_fees_file in", values, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileNotIn(List<String> values) {
+            addCriterion("water_fees_file not in", values, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileBetween(String value1, String value2) {
+            addCriterion("water_fees_file between", value1, value2, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andWaterFeesFileNotBetween(String value1, String value2) {
+            addCriterion("water_fees_file not between", value1, value2, "waterFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesIsNull() {
+            addCriterion("other_fees is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesIsNotNull() {
+            addCriterion("other_fees is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesEqualTo(Long value) {
+            addCriterion("other_fees =", value, "otherFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesNotEqualTo(Long value) {
+            addCriterion("other_fees <>", value, "otherFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesGreaterThan(Long value) {
+            addCriterion("other_fees >", value, "otherFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesGreaterThanOrEqualTo(Long value) {
+            addCriterion("other_fees >=", value, "otherFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesLessThan(Long value) {
+            addCriterion("other_fees <", value, "otherFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesLessThanOrEqualTo(Long value) {
+            addCriterion("other_fees <=", value, "otherFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesIn(List<Long> values) {
+            addCriterion("other_fees in", values, "otherFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesNotIn(List<Long> values) {
+            addCriterion("other_fees not in", values, "otherFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesBetween(Long value1, Long value2) {
+            addCriterion("other_fees between", value1, value2, "otherFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesNotBetween(Long value1, Long value2) {
+            addCriterion("other_fees not between", value1, value2, "otherFees");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileIsNull() {
+            addCriterion("other_fees_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileIsNotNull() {
+            addCriterion("other_fees_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileEqualTo(String value) {
+            addCriterion("other_fees_file =", value, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileNotEqualTo(String value) {
+            addCriterion("other_fees_file <>", value, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileGreaterThan(String value) {
+            addCriterion("other_fees_file >", value, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileGreaterThanOrEqualTo(String value) {
+            addCriterion("other_fees_file >=", value, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileLessThan(String value) {
+            addCriterion("other_fees_file <", value, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileLessThanOrEqualTo(String value) {
+            addCriterion("other_fees_file <=", value, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileLike(String value) {
+            addCriterion("other_fees_file like", value, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileNotLike(String value) {
+            addCriterion("other_fees_file not like", value, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileIn(List<String> values) {
+            addCriterion("other_fees_file in", values, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileNotIn(List<String> values) {
+            addCriterion("other_fees_file not in", values, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileBetween(String value1, String value2) {
+            addCriterion("other_fees_file between", value1, value2, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherFeesFileNotBetween(String value1, String value2) {
+            addCriterion("other_fees_file not between", value1, value2, "otherFeesFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2IsNull() {
+            addCriterion("price2 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2IsNotNull() {
+            addCriterion("price2 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2EqualTo(Long value) {
+            addCriterion("price2 =", value, "price2");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2NotEqualTo(Long value) {
+            addCriterion("price2 <>", value, "price2");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2GreaterThan(Long value) {
+            addCriterion("price2 >", value, "price2");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2GreaterThanOrEqualTo(Long value) {
+            addCriterion("price2 >=", value, "price2");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2LessThan(Long value) {
+            addCriterion("price2 <", value, "price2");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2LessThanOrEqualTo(Long value) {
+            addCriterion("price2 <=", value, "price2");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2In(List<Long> values) {
+            addCriterion("price2 in", values, "price2");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2NotIn(List<Long> values) {
+            addCriterion("price2 not in", values, "price2");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2Between(Long value1, Long value2) {
+            addCriterion("price2 between", value1, value2, "price2");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrice2NotBetween(Long value1, Long value2) {
+            addCriterion("price2 not between", value1, value2, "price2");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagIsNull() {
+            addCriterion("accounting_flag is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagIsNotNull() {
+            addCriterion("accounting_flag is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagEqualTo(Long value) {
+            addCriterion("accounting_flag =", value, "accountingFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagNotEqualTo(Long value) {
+            addCriterion("accounting_flag <>", value, "accountingFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagGreaterThan(Long value) {
+            addCriterion("accounting_flag >", value, "accountingFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagGreaterThanOrEqualTo(Long value) {
+            addCriterion("accounting_flag >=", value, "accountingFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagLessThan(Long value) {
+            addCriterion("accounting_flag <", value, "accountingFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagLessThanOrEqualTo(Long value) {
+            addCriterion("accounting_flag <=", value, "accountingFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagIn(List<Long> values) {
+            addCriterion("accounting_flag in", values, "accountingFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagNotIn(List<Long> values) {
+            addCriterion("accounting_flag not in", values, "accountingFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagBetween(Long value1, Long value2) {
+            addCriterion("accounting_flag between", value1, value2, "accountingFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountingFlagNotBetween(Long value1, Long value2) {
+            addCriterion("accounting_flag not between", value1, value2, "accountingFlag");
             return (Criteria) this;
         }
     }

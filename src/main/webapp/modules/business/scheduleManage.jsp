@@ -60,7 +60,7 @@
             <el-button type="primary" icon="el-icon-plus" @click="dialogVisible = true">新增排班</el-button>
         </el-row>
     </el-header>
-    <el-table height="440" :data="tableData" fit border size="small" v-loading="loading"
+    <el-table :height="TableHeight" :data="tableData" fit border size="small" v-loading="loading"
               :cell-style="addClass" style="font-size: 10px"
               :header-cell-style="{ background: '#FAFAFA' }" >
         <template>
@@ -163,8 +163,8 @@
             <el-form-item label="行程简述" :label-width="formLabelWidth" prop="description">
                 <el-input  v-model="form.description" autocomplete="off" placeholder="行程简述"></el-input>
             </el-form-item>
-            <el-form-item label="车价" :label-width="formLabelWidth" prop="price">
-                <el-input  v-model="form.price" autocomplete="off" placeholder="车价"></el-input>
+            <el-form-item label="收进车价" :label-width="formLabelWidth" prop="price">
+                <el-input  v-model.number="form.price" autocomplete="off" placeholder="收进车价"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -203,7 +203,8 @@
                     carNumber: [{ required: true, message: '不能为空', trigger: 'blur' },],
                     startAddress: [{ required: true, message: '不能为空', trigger: 'blur' },],
                     endAddress: [{ required: true, message: '不能为空', trigger: 'blur' },],
-                    price: [{ required: true, message: '不能为空', trigger: 'blur' },],
+                    price: [{ required: true, message: '不能为空', trigger: 'blur' },
+                        { type: 'number', message: '价格必须是数字', trigger: 'blur' }],
                     description: [{ required: true, message: '不能为空', trigger: 'blur' },],
                     driver: [{ required: true, message: '不能为空', trigger: 'blur' },],
                     travelAgencyResponsibility: [{ required: true, message: '不能为空', trigger: 'blur' },],
@@ -281,13 +282,14 @@
                     url: '../../demo/getCarScheduleTable',
                     params: {date:me.date}
                 }).then(res=>{
+                    me.loading=false;
+                    me.jsonData=me.tableData=[];
                     if(res.data!=''){
                         let data=res.data;
                         data.forEach(v=>{
                             v.columnName=v.carNumber+":"+v.resDriver.substring(0,1)+v.resDriverTel;
                         })
                         me.tableData=me.jsonData=res.data;
-                        me.loading=false;
                     }else{
                         alert(err);
                     }
@@ -346,19 +348,19 @@
             addFunc(){
                 let me=this;
                 let v=me.form;
-                me.dialogVisible = false;
-                me.loading=true;
                 v.createTime=getNow();
-                v.startTime=v.endTime[0];
-                v.endTime=v.endTime[1];
-                me.driverOptions.forEach(v=>{
-                    if(me.form.driver==v.name) me.form.driverTel=v.tel;
-                })
                 this.$refs['roleForm'].validate((valid) => {
                     if (valid) {
+                        v.startTime=v.endTime[0];
+                        v.endTime=v.endTime[1];
+                        v.status="未收款";
+                        me.driverOptions.forEach(v=>{
+                            if(me.form.driver==v.name) me.form.driverTel=v.tel;
+                        })
                         axios.post('../../demo/addCarScheduleTable',v).then(res=>{
                             if(res.data!=''){
                                 me.initTableData();
+                                me.dialogVisible = false;
                                 me.$refs['roleForm'].resetFields();
                                 me.$message({
                                     type: 'success',
@@ -367,6 +369,8 @@
                             }
                         },err=>{
                             alert("新增数据失败！");
+                            me.$refs['roleForm'].resetFields();
+                            me.loading=false;
                         });
                     } else {
                         return false;
@@ -376,6 +380,11 @@
         },
         computed: {
 
+        },
+        created() {
+            //动态计算表格高度
+            let windowHeight = document.documentElement.clientHeight || document.bodyclientHeight;
+            this.TableHeight = windowHeight - 100;
         },
         mounted() {
             let me=this;

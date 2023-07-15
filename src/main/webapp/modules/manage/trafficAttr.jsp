@@ -23,7 +23,7 @@
             </el-row>
         </el-header>
         <el-main style="padding-top: 0px">
-            <el-table :data="tableData" :span-method="objectSpanMethod" border height="440">
+            <el-table :data="tableData" :span-method="objectSpanMethod" border :height="TableHeight">
                 <template slot="empty">
                     <p>{{dataText}}</p>
                 </template>
@@ -190,6 +190,11 @@
         },
         computed: {
 
+        },
+        created() {
+            //动态计算表格高度
+            let windowHeight = document.documentElement.clientHeight || document.bodyclientHeight;
+            this.TableHeight = windowHeight - 100;
         },
         mounted() {
             this.initTable();
