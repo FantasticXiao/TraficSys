@@ -19,10 +19,6 @@
     select *  from  staff_info
   </select>
 
-  <select id="selectDepartmentList" resultType="java.util.Map" >
-    select *  from  staff_department
-  </select>
-
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

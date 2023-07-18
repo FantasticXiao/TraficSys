@@ -99,12 +99,6 @@ public class Controller {
     public List<StaffInfo> getStaffInfoList(){
         return MajorFuncService.getStaffInfoList();
     }
-
-    @GetMapping("/selectDepartmentList")
-    public List<Map<String,Object>> selectDepartmentList(){
-        return MajorFuncService.selectDepartmentList();
-    }
-
     @PostMapping( "/addStaffInfo")
     public int addStaffInfo(@RequestBody StaffInfo StaffInfo){
         return MajorFuncService.addStaffInfo(StaffInfo);
@@ -116,6 +110,24 @@ public class Controller {
     @PostMapping( "/deleteStaffInfo")
     public int deleteStaffInfo(@RequestBody StaffInfo StaffInfo){
         return MajorFuncService.deleteStaffInfo(StaffInfo.getId());
+    }
+
+    //部门信息管理相关接口
+    @GetMapping("/getStaffDepartmentList")
+    public List<StaffDepartment> getStaffDepartmentList(){
+        return MajorFuncService.getStaffDepartmentList();
+    }
+    @PostMapping( "/addStaffDepartment")
+    public int addStaffDepartment(@RequestBody StaffDepartment StaffDepartment){
+        return MajorFuncService.addStaffDepartment(StaffDepartment);
+    }
+    @PostMapping( "/editStaffDepartment")
+    public int editStaffDepartment(@RequestBody StaffDepartment StaffDepartment){
+        return MajorFuncService.editStaffDepartment(StaffDepartment);
+    }
+    @PostMapping( "/deleteStaffDepartment")
+    public int deleteStaffDepartment(@RequestBody StaffDepartment StaffDepartment){
+        return MajorFuncService.deleteStaffDepartment(StaffDepartment.getId());
     }
 
     //用户角色的接口 sys_role
@@ -212,36 +224,6 @@ public class Controller {
     }
 
 
-
-
-
-
-
-    //出车排班表----作废
-    @GetMapping("/getScheduleTableList")
-    public List<Map<String,Object>> getScheduleTableList(String month){
-        return MajorFuncService.getScheduleTableList(month);
-    }
-    @GetMapping("/getScheduleTableListForCalendar")
-    public List<Map<String,Object>> getScheduleTableListForCalendar(String month) throws ParseException {
-        return MajorFuncService.getScheduleTableListForCalendar(month);
-    }
-    @GetMapping("/getScheduleHistory")
-    public List<Map<String,Object>> getScheduleHistory(){
-        return MajorFuncService.getScheduleHistory();
-    }
-    @PostMapping( "/addScheduleTable")
-    public int addScheduleTable(@RequestBody ScheduleTable ScheduleTable){
-        return MajorFuncService.addScheduleTable(ScheduleTable);
-    }
-    @PostMapping( "/editScheduleTable")
-    public int editScheduleTable(@RequestBody ScheduleTable ScheduleTable){
-        return MajorFuncService.editScheduleTable(ScheduleTable);
-    }
-    @PostMapping( "/deleteScheduleTable")
-    public int deleteScheduleTable(@RequestBody ScheduleTable ScheduleTable){
-        return MajorFuncService.deleteScheduleTable(ScheduleTable.getId());
-    }
 
 }
 

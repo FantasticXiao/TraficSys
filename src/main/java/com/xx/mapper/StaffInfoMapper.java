@@ -12,8 +12,6 @@ public interface StaffInfoMapper {
 
     List<StaffInfo> selectList();
 
-    List<Map<String,Object>> selectDepartmentList();
-
     long countByExample(StaffInfoExample example);
 
     int deleteByExample(StaffInfoExample example);

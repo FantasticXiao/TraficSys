@@ -5,11 +5,7 @@ import com.xx.mapper.*;
 import com.xx.service.MajorFuncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,11 +26,11 @@ public class MajorFuncServiceImpl implements MajorFuncService {
     @Autowired(required = false)
     private StaffInfoMapper StaffInfoMapper;
     @Autowired(required = false)
+    private StaffDepartmentMapper StaffDepartmentMapper;
+    @Autowired(required = false)
     private SysRoleMenuMapper SysRoleMenuMapper;
     @Autowired(required = false)
     private CarScheduleTableMapper CarScheduleTableMapper;
-    @Autowired(required = false)
-    private ScheduleTableMapper ScheduleTableMapper;
 
     public Map<String,Object> logIn(String name, String password) {
         return SysUserMapper.logIn(name,password);
@@ -93,9 +89,6 @@ public class MajorFuncServiceImpl implements MajorFuncService {
     public List<StaffInfo> getStaffInfoList(){
         return  StaffInfoMapper.selectList();
     }
-    public List<Map<String, Object>> selectDepartmentList() {
-        return StaffInfoMapper.selectDepartmentList();
-    }
     public int addStaffInfo(StaffInfo StaffInfo){
         return StaffInfoMapper.insert(StaffInfo);
     }
@@ -104,6 +97,19 @@ public class MajorFuncServiceImpl implements MajorFuncService {
     }
     public int deleteStaffInfo(Integer id) {
         return StaffInfoMapper.deleteByPrimaryKey(id);
+    }
+
+    public List<StaffDepartment> getStaffDepartmentList(){
+        return  StaffDepartmentMapper.selectList();
+    }
+    public int addStaffDepartment(StaffDepartment StaffDepartment){
+        return StaffDepartmentMapper.insert(StaffDepartment);
+    }
+    public int editStaffDepartment(StaffDepartment StaffDepartment) {
+        return StaffDepartmentMapper.updateByPrimaryKey(StaffDepartment);
+    }
+    public int deleteStaffDepartment(Integer id) {
+        return StaffDepartmentMapper.deleteByPrimaryKey(id);
     }
 
     public List<SysRole> getSysRoleList(){
@@ -204,14 +210,10 @@ public class MajorFuncServiceImpl implements MajorFuncService {
 
 
 
-    public List<Map<String,Object>> getScheduleTableList(String month) {
-        return ScheduleTableMapper.selectList(month);
-    }
-    public List<Map<String,Object>> getScheduleHistory() {
-        return ScheduleTableMapper.getScheduleHistory();
-    }
+
     public List<Map<String,Object>> getScheduleTableListForCalendar(String month) throws ParseException {
-        List<Map<String,Object>> rs=ScheduleTableMapper.selectList(month);
+//        List<Map<String,Object>> rs=ScheduleTableMapper.selectList(month);
+        List<Map<String,Object>> rs=new ArrayList<Map<String,Object>>();
         List<Map<String,Object>> result=new ArrayList<Map<String,Object>>();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String startDate=month+"-01";
@@ -241,16 +243,6 @@ public class MajorFuncServiceImpl implements MajorFuncService {
         }
         return  result;
     }
-    public int addScheduleTable(ScheduleTable ScheduleTable){
-        return ScheduleTableMapper.insert(ScheduleTable);
-    }
-    public int editScheduleTable(ScheduleTable ScheduleTable) {
-        return ScheduleTableMapper.updateByPrimaryKey(ScheduleTable);
-    }
-    public int deleteScheduleTable(Long id) {
-        return ScheduleTableMapper.deleteByPrimaryKey(id);
-    }
-
     public static String transA2B(String a){
         String rs = a;
         if (a.contains("_")) {

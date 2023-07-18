@@ -160,7 +160,7 @@
             },
             initOptions(){
               let me=this;
-                axios.get('../../demo/selectDepartmentList').then(res=>{
+                axios.get('../../demo/getStaffDepartmentList').then(res=>{
                     if(res.data!=''){
                         me.departmentOptions=res.data;
                     }

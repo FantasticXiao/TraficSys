@@ -26,10 +26,14 @@ public interface MajorFuncService {
     int deleteTrafficInfo(Integer id);
 
     List<StaffInfo> getStaffInfoList();
-    List<Map<String,Object>> selectDepartmentList();
     int addStaffInfo(StaffInfo StaffInfo);
     int editStaffInfo(StaffInfo StaffInfo);
     int deleteStaffInfo(Integer id);
+
+    List<StaffDepartment> getStaffDepartmentList();
+    int addStaffDepartment(StaffDepartment StaffDepartment);
+    int editStaffDepartment(StaffDepartment StaffDepartment);
+    int deleteStaffDepartment(Integer id);
 
     List<SysRole> getSysRoleList();
     int addSysRole(SysRole SysRole);
@@ -47,13 +51,6 @@ public interface MajorFuncService {
     int deleteCarScheduleTable(Long id);
 
 
-
-    List<Map<String,Object>> getScheduleTableList(String month);
-    List<Map<String,Object>> getScheduleTableListForCalendar(String month) throws ParseException;
-    List<Map<String,Object>> getScheduleHistory();
-    int addScheduleTable(ScheduleTable ScheduleTable);
-    int editScheduleTable(ScheduleTable ScheduleTable);
-    int deleteScheduleTable(Long id);
 
 }
 
