@@ -11,10 +11,10 @@
       <h1>百佳客运车辆管理平台</h1>
       <div class="top-right">
         <el-menu class="el-menu-demo" mode="horizontal" height="55px" background-color="#232f3e" text-color="#fff" active-text-color="#ffd04b">
-          <el-menu-item @click="dialogFormVisible = true">
+          <el-menu-item @click="editPsd">
             <i class="el-icon-s-custom"></i><span>修改密码</span>
           </el-menu-item>
-          <el-menu-item @click="dialogFormVisible = true">
+          <el-menu-item @click="diary">
             <i class="el-icon-table-lamp"></i><span>打卡</span>
           </el-menu-item>
           <el-menu-item @click="notice">
@@ -64,15 +64,15 @@
     <el-dialog title="修改密码" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="账号名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.name" disabled="disabled"></el-input>
         </el-form-item>
-        <el-form-item label="账号密码" :label-width="formLabelWidth">
+        <el-form-item label="账号密码（新）" :label-width="formLabelWidth">
           <el-input v-model="form.password" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="editPsdFunc">确 定</el-button>
       </div>
     </el-dialog>
   </el-container>
@@ -99,10 +99,7 @@
               activeIndex:"",
               menuList:[],
               dialogFormVisible: false,
-              form: {
-                  name: '',
-                  password:'',
-              },
+              form: {},
               formLabelWidth: '120px'
           },
           methods:{
@@ -135,9 +132,36 @@
                       }
                   });
               },
+              editPsd(){
+                  let me=this;
+                  me.dialogFormVisible = true;
+                  me.form=user;
+                  me.form.password='';
+              },
+              editPsdFunc(){
+                  let me=this;
+                  me.dialogFormVisible = false;
+                  axios.post('demo/editSysUser',me.form).then(res=>{
+                      if(res.data!=''){
+                          me.$message({
+                              type: 'success',
+                              message: '修改密码成功！'
+                          });
+                      }
+                  },err=>{
+                      alert("修改密码失败！");
+                  });
+              },
               doLogOut(){
                   localStorage.setItem('user',null);
                   window.location = "login.jsp";
+              },
+              diary(){
+                  this.$notify({
+                      title: '考勤打卡',
+                      message: '打卡成功',
+                      position: 'top-right'
+                  });
               },
               notice(){
                   this.$notify({

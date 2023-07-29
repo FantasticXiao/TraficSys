@@ -35,6 +35,11 @@ public class MajorFuncServiceImpl implements MajorFuncService {
     public Map<String,Object> logIn(String name, String password) {
         return SysUserMapper.logIn(name,password);
     }
+
+    public int editSysUser(SysUser SysUser) {
+        return SysUserMapper.updateByPrimaryKey(SysUser);
+    }
+
     public List<SysMenu> getSysMenuList() {
         return SysMenuMapper.selectList();
     }

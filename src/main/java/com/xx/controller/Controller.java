@@ -40,6 +40,11 @@ public class Controller {
         Map<String,Object> rs = MajorFuncService.logIn(name,password);
         return rs;
     }
+    @PostMapping( "/editSysUser")
+    public int editSysUser(@RequestBody SysUser SysUser){
+        return MajorFuncService.editSysUser(SysUser);
+    }
+
     @GetMapping("/getSysMenuList")
     public List<SysMenu> getSysMenuList(){
         return MajorFuncService.getSysMenuList();

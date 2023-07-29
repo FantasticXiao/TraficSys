@@ -11,6 +11,7 @@ import java.util.Map;
 public interface MajorFuncService {
 
     Map<String,Object> logIn(String name, String password);
+    int editSysUser(SysUser SysUser);
     List<SysMenu> getSysMenuList();
     List<SysMenu> getSysMenuListByRoleId(Long roleId);
     List<SysRoleMenu> selectRoleMenuByRoleId(Long roleId);
