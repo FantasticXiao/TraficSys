@@ -16,6 +16,8 @@ public class MajorFuncServiceImpl implements MajorFuncService {
     @Autowired(required = false)
     private SysUserMapper SysUserMapper;
     @Autowired(required = false)
+    private UserClockMapper UserClockMapper;
+    @Autowired(required = false)
     private SysMenuMapper SysMenuMapper;
     @Autowired(required = false)
     private SysRoleMapper SysRoleMapper;
@@ -63,6 +65,18 @@ public class MajorFuncServiceImpl implements MajorFuncService {
             rs=1;
         }
         return rs;
+    }
+
+    public List<UserClock> getUserClockList(String date) {
+        return UserClockMapper.selectList(date);
+    }
+
+    public List<UserClock> getUserClockByUserId(String userId,String date) {
+        return UserClockMapper.selectListByUserId(userId,date);
+    }
+
+    public int addUserClock(UserClock UserClock) {
+        return UserClockMapper.insert(UserClock);
     }
 
     public List<TrafficAttr> getTrafficAttrList(){

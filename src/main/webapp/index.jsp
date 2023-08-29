@@ -14,10 +14,10 @@
           <el-menu-item @click="editPsd">
             <i class="el-icon-s-custom"></i><span>修改密码</span>
           </el-menu-item>
-          <el-menu-item @click="diary">
+          <el-menu-item @click="dialogClockVisible=true">
             <i class="el-icon-table-lamp"></i><span>打卡</span>
           </el-menu-item>
-          <el-menu-item @click="notice">
+          <el-menu-item @click="notice" v-if="false">
             <i class="el-icon-message-solid"></i><span>通知</span>
           </el-menu-item>
           <el-menu-item @click="doLogOut">
@@ -75,6 +75,15 @@
         <el-button type="primary" @click="editPsdFunc">确 定</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog title="打卡" :visible.sync="dialogClockVisible" width="240">
+      <el-button type="success" v-if="clock_morning" circle @click="diary('上班')">上班打卡</el-button>
+      <el-button type="danger" v-if="!clock_morning" circle @click="diary('下班')">下班打卡</el-button>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogClockVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
+
   </el-container>
   </body>
   <!-- 必须先引入vue，  后使用element-ui -->
@@ -99,8 +108,10 @@
               activeIndex:"",
               menuList:[],
               dialogFormVisible: false,
+              dialogClockVisible:false,
               form: {},
-              formLabelWidth: '120px'
+              formLabelWidth: '120px',
+              clock_morning:true,
           },
           methods:{
               initMenu(){
@@ -126,7 +137,7 @@
                               })
                               me.menuList[i].children=temp;
                           }
-                          me.addTab(me.menuList[3].children[0]);
+                          me.addTab(me.menuList[0].children[2]);
                       }else{
                           alert(err);
                       }
@@ -152,16 +163,52 @@
                       alert("修改密码失败！");
                   });
               },
+              getNow(){
+                  return new Date(+new Date(new Date()) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
+              },
               doLogOut(){
                   localStorage.setItem('user',null);
                   window.location = "login.jsp";
               },
-              diary(){
-                  this.$notify({
-                      title: '考勤打卡',
-                      message: '打卡成功',
-                      position: 'top-right'
+              diary(type){
+                  let me=this;
+                  let userId=user.id;
+                  let tm=me.getNow();
+                  axios({
+                      type: 'post',
+                      url: 'demo/getUserClockListByUserId',
+                      params: {userId:userId,date:tm.substring(0,10)}
+                  }).then(res=>{
+                      let data=res.data;
+                      let flag=0;
+                      if(data.length>0){
+                          for(let i=0;i<data.length;i++){
+                              if(data[i].type==type){
+                                  this.$notify({
+                                      title: '考勤打卡',
+                                      message: type+'打卡失败，重复打卡！',
+                                      position: 'bottom-right'
+                                  });
+                                  flag=1;
+                                  break;
+                              }
+                          }
+                      }
+                      if(flag==0){
+                          axios.post('demo/addUserClock',
+                              {userId:userId,type:type,createTime:tm}
+                              ).then(res=>{
+                              if(res.data!=''){
+                                  this.$notify({
+                                      title: '考勤打卡',
+                                      message: '打卡成功！',
+                                      position: 'bottom-right'
+                                  });
+                              }
+                          })
+                      }
                   });
+                  me.dialogClockVisible=false;
               },
               notice(){
                   this.$notify({
@@ -209,6 +256,12 @@
               let me=this;
              if(user!=null){
                  me.initMenu();
+                 let tm=me.getNow();
+                 if(tm.substring(11,13)<=12){
+                     me.clock_morning=true;
+                 }else{
+                     me.clock_morning=false;
+                 }
              }
           }
       })

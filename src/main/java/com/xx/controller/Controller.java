@@ -61,6 +61,20 @@ public class Controller {
     public int roleMenuSave(@RequestBody List<SysRoleMenu> SysRoleMenu){
         return MajorFuncService.roleMenuSave(SysRoleMenu);
     }
+    //上班打卡
+    @GetMapping("/getUserClockList")
+    public List<UserClock> getUserClockList(String date){
+        return MajorFuncService.getUserClockList(date);
+    }
+    @GetMapping("/getUserClockListByUserId")
+    public List<UserClock> getUserClockByUserId(String userId,String date){
+        return MajorFuncService.getUserClockByUserId(userId,date);
+    }
+    @PostMapping( "/addUserClock")
+    public int addUserClock(@RequestBody UserClock UserClock){
+        return MajorFuncService.addUserClock(UserClock);
+    }
+
 
     //车辆属性的接口，诸如车牌、颜色、型号
     @GetMapping("/getTrafficAttrList")

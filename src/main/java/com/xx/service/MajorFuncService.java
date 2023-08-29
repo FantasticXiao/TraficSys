@@ -16,6 +16,10 @@ public interface MajorFuncService {
     List<SysMenu> getSysMenuListByRoleId(Long roleId);
     List<SysRoleMenu> selectRoleMenuByRoleId(Long roleId);
     int roleMenuSave(List<SysRoleMenu> SysRoleMenu);
+    List<UserClock> getUserClockList(String date);
+    List<UserClock> getUserClockByUserId(String userId,String date);
+    int addUserClock(UserClock UserClock);
+
     List<TrafficAttr> getTrafficAttrList();
     int addTrafficAttr(TrafficAttr trafficAttr);
     int editTrafficAttr(TrafficAttr trafficAttr);

@@ -72,6 +72,7 @@
                 <el-form-item prop="officialSettlementFormFile">
                     <el-upload
                             class="upload-demo"
+                            type="post"
                             action="../../demo/upload"
                             multiple
                             :limit="1">
